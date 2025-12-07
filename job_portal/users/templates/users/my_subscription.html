@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+
+{% block css %}
+<style>
+    /* Importing Google Fonts for better typography */
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+    body {
+        font-family: 'Poppins', sans-serif; /* Applying Poppins font globally */
+    }
+
+    .subscription-detail, .change-plan {
+        background-color: #ffffff;
+        padding: 30px;
+        margin: 20px 0;
+        border-radius: 12px;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        border: 1px solid #e2e6ea;
+    }
+
+    .header h1 {
+        text-align: center;
+        margin-bottom: 25px;
+        color: #6f42c1; /* Purple color */
+        font-weight: 600;
+        font-size: 2rem;
+    }
+
+    .subscription-detail p {
+        font-size: 1.1rem;
+        margin-bottom: 18px;
+        color: #495057;
+        line-height: 1.6;
+    }
+
+    .subscription-detail p i {
+        margin-right: 12px;
+        color: #6f42c1; /* Purple color */
+        font-size: 1.4rem; /* Adjusted icon size for better clarity */
+    }
+
+    .subscription-detail p strong {
+        margin-right: 8px;
+        font-weight: 600;
+        color: #333;
+    }
+
+    .change-plan .btn-primary {
+        display: block;
+        width: 100%;
+        text-align: center;
+        font-size: 1.3rem;
+        padding: 12px;
+        background-color: #6f42c1; /* Purple color */
+        border-color: #6f42c1; /* Purple color */
+        border-radius: 8px;
+        color: white;
+        font-weight: 600;
+        transition: background-color 0.3s ease;
+    }
+
+    .change-plan .btn-primary:hover {
+        background-color: #5a2e8c; /* Darker purple for hover */
+        border-color: #5a2e8c;
+    }
+
+    .change-plan .btn-primary i {
+        margin-right: 10px;
+    }
+
+    @media (min-width: 768px) {
+        .subscription-detail, .change-plan {
+            width: 75%;
+            margin-left: auto;
+            margin-right: auto;
+        }
+    }
+
+    @media (max-width: 767px) {
+        .header h1 {
+            font-size: 1.8rem;
+        }
+
+        .subscription-detail p {
+            font-size: 1rem;
+        }
+    }
+</style>
+{% endblock css %}
+
+{% block title %}My Subscription{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="header">
+        <h1>Subscription Details</h1>
+    </div>
+    <div class="subscription-detail">
+        <p><i class="fa-solid fa-layer-group"></i><strong>Plan:</strong> {{ subscription.plan|title }}</p>
+        <p><i class="fa-solid fa-list-check"></i><strong>Applications Remaining:</strong> {{ subscription.remaining_applications }}</p>
+        <p><i class="fa-solid fa-calendar-check"></i><strong>Last Reset:</strong> {{ subscription.last_reset_date|date:"F d, Y" }}</p>
+        <p><i class="fa-solid fa-calendar-xmark"></i><strong>Expires:</strong> 
+            {{ expiry_date|date:"F d, Y" }}
+        </p>
+    </div>
+    <div class="change-plan">
+        <a href="{% url 'subscription' %}" class="btn btn-primary">
+            <i class="fas fa-money-bill-wave"></i> Change Subscription Plan
+        </a>
+    </div>
+</div>
+{% endblock content %}

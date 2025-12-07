@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block css %}
+<link rel="stylesheet" href="{% static 'job_app.css' %}">
+{% endblock css %}
+
+{% block title %}Job Applicants{% endblock %}
+{% block content %}
+<div class="container">
+    <h1 class="page-title">Job Applicants</h1>
+
+    <form method="get" class="search-form">
+        <input 
+            type="text" 
+            name="skills" 
+            class="search-input" 
+            placeholder="Enter skills (comma-separated)" 
+            value="{{ search_query }}"
+        >
+        <button type="submit" class="search-button">Search</button>
+    </form>
+
+    {% if applicants %}
+    <table class="applicants-table">
+        <thead>
+            <tr>
+                <th>Full Name</th>
+                <th>Skills</th>
+                <th>Location</th>
+                <th>LinkedIn</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for applicant in applicants %}
+            <tr>
+                <td><a href="{% url 'company_view_applicant_profile' applicant_id=applicant.id %}" class="applicant-link">
+                    {{ applicant.user.get_full_name }}
+                </a></td>
+                <td>
+                    {% for skill in applicant.skills.all %}
+                        <span class="skill-badge">{{ skill.name }}</span>{% if not forloop.last %}, {% endif %}
+                    {% endfor %}
+                </td>
+                <td>{{ applicant.location }}</td>
+                <td>
+                    {% if applicant.linkedin_profile %}
+                        <a href="{{ applicant.linkedin_profile }}" target="_blank" class="linkedin-link">Profile</a>
+                    {% else %}
+                        <span class="no-link">Not Provided</span>
+                    {% endif %}
+                </td>
+                <td>
+                    <a href="{% url 'schedule_interview' applicant_id=applicant.id %}" class="action-button wide-button">
+                        Schedule Interview
+                    </a>
+                </td>
+            </tr>
+            
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <div class="no-results">
+        <p>No applicants found matching the given skills.</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

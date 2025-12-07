@@ -1,0 +1,192 @@
+{% extends 'base.html' %}
+
+{% block title %}Job Information{% endblock %}
+
+{% block content %}
+<style>
+    /* General Body Styling */
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f4f7fc;
+        color: #333;
+    }
+
+    /* Container Styling */
+    .container {
+        max-width: 900px;
+        margin: 50px auto;
+        padding: 30px;
+        background: #ffffff;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Job Title Section */
+    .card-header {
+        background-color: #6a38c2;
+        color: white;
+        text-align: center;
+        padding: 20px;
+    }
+
+    .card-header h4 {
+        margin: 0;
+    }
+
+    /* Job Details Section */
+    .card-body {
+        background-color: #fafafa;
+        padding: 25px;
+        border-radius: 8px;
+    }
+
+    .card-body p {
+        font-size: 1.1rem;
+        margin: 10px 0;
+    }
+
+    .card-body strong {
+        color: #6a38c2;
+    }
+
+    .card-body hr {
+        border-top: 1px solid #ddd;
+    }
+
+    /* Application Actions */
+    .card-footer {
+        background-color: #f9f9f9;
+        padding: 20px;
+        text-align: center;
+    }
+
+    .card-footer .btn {
+        font-size: 1rem;
+        font-weight: bold;
+    }
+
+    /* Primary Button Styling */
+    .card-footer .btn-primary {
+        background-color: #6a38c2;
+        border: none;
+        color: white;
+    }
+
+    /* Outline Button Styling */
+    .card-footer .btn-outline-primary {
+        border-color: #6a38c2;
+        color: #6a38c2;
+    }
+
+    /* Back Button Styling */
+    .card-footer .btn-back {
+        background-color: #6a38c2;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 25px;
+        text-align: center;
+        font-weight: bold;
+        text-decoration: none;
+        transition: background-color 0.3s ease;
+    }
+
+    .card-footer .btn-back:hover {
+        background-color: #5a2eac;
+    }
+
+    /* Status Messages */
+    .text-success {
+        color: #28a745;
+    }
+
+    .text-info {
+        color: #17a2b8;
+    }
+
+    .text-muted {
+        color: #6c757d;
+    }
+
+    .alert-warning {
+        background-color: #fff3cd;
+        color: #856404;
+        border: 1px solid #ffeeba;
+    }
+</style>
+
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <!-- Job Title Section -->
+                <div class="card-header">
+                    <h4>{{ job.title }}</h4>
+                </div>
+
+                <!-- Job Details Section -->
+                <div class="card-body">
+                    <p><strong>Company:</strong> {{ job.company.company_name }}</p>
+                    <p><strong>Location:</strong> {{ job.location }}</p> <!-- Location Display -->
+                    <p><strong>Job Type:</strong> {{ job.get_job_type_display }}</p>
+                    <p><strong>Salary:</strong> {{ job.min_salary }} LPA - {{ job.max_salary }} LPA</p>
+                    <p><strong>Vacancies:</strong> {{ job.vacancies }}</p>  <!-- Added Vacancies -->
+                    <p><strong>Posted On:</strong> {{ job.created_at|date:"d M Y, H:i" }}</p>
+                    <p><strong>Expiry Date:</strong> {{ job.expiry_date|date:"d M Y" }}</p> <!-- Expiry Date Added -->
+                    <hr>
+                    <h5>Job Description</h5>
+                    <p>{{ job.description }}</p>
+                </div>
+
+                <!-- Application Status and Actions -->
+                <div class="card-footer text-center">
+                    {% if user.is_authenticated %}
+                        {% if has_applied %}
+                            <p class="text-success">You have already applied for this job.</p>
+                            <p><strong>Application Status:</strong> 
+                                {% if application_status %}
+                                    <span class="text-info">{{ application_status }}</span>
+                                {% else %}
+                                    <span class="text-muted">Pending</span>
+                                {% endif %}
+                            </p>
+
+                            {% if application_status == 'Shortlisted for Interview' %}
+                                <p><strong>Interview Details:</strong> You have been shortlisted. You will receive further information soon.</p>
+                            {% elif application_status == 'Accepted' %}
+                                <p><strong>Congratulations!</strong> You have been accepted for the job! An offer letter will be sent to your email.</p>
+                            {% elif application_status == 'Rejected' %}
+                                <p><strong>Sorry!</strong> Unfortunately, after the interview, your application for the job was rejected.</p>
+                                {% if application.feedback %}
+                                    <div class="alert alert-warning mt-3">
+                                        <strong>Rejection Feedback:</strong>
+                                        <p>{{ application.feedback }}</p>
+                                    </div>
+                                {% endif %}
+                            {% endif %}
+
+                            <a href="{% url 'applied_jobs' %}" class="btn btn-back">Back to Applied Jobs</a>
+                        {% else %}
+                            <form action="{% url 'apply_for_job' job.id %}" method="POST">
+                                {% csrf_token %}
+                                <div class="form-group">
+                                    <label for="experience">Years of Experience:</label>
+                                    <input type="number" class="form-control" name="experience" min="0" max="100" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="cover_letter">Cover Letter:</label>
+                                    <textarea class="form-control" name="cover_letter" rows="4" required></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-primary mt-3">Apply for this Job</button>
+                            </form>
+                        {% endif %}
+                    {% else %}
+                        <!-- If the user is not logged in, show a login prompt -->
+                        <p>Please <a href="{% url 'applicant_login' %}">log in</a> to apply for this job.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

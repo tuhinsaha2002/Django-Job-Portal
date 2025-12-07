@@ -1,0 +1,51 @@
+/* My Details Page Styles */
+.my-details-container {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.my-details-container h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    text-align: center;
+    color: #6a38c2;
+    margin-bottom: 30px;
+}
+
+.profile-info {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.profile-card p {
+    font-size: 1.1rem;
+    margin: 15px 0;
+    color: #333;
+}
+
+.profile-card a {
+    color: #fa6021;
+    text-decoration: none;
+}
+
+.profile-card a:hover {
+    text-decoration: underline;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .my-details-container {
+        padding: 15px;
+        margin: 20px;
+    }
+
+    .profile-info {
+        padding: 15px;
+    }
+}

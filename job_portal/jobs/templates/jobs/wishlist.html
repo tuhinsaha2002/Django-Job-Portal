@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'wishlist.css' %}">
+{% endblock css %}
+
+{% block title %}Your Saved Jobs{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1 class="display-4 text-gradient">Your Saved Jobs</h1>
+
+    {% if wishlist_jobs %}
+        <div class="wishlist-cards mt-4">
+            {% for job in wishlist_jobs %}
+                <div class="job-card shadow-lg p-4 hover-job-card">
+                    <h4 class="text-gradient">{{ job.title }}</h4>
+                    <p><i class="bi bi-building"></i> {{ job.company.company_name }}</p>
+                    <div class="d-flex justify-content-between mt-3">
+                        <a href="{% url 'job_info' job.id %}" class="btn btn-primary btn-sm animated-btn">View Details</a>
+                        <form action="{% url 'remove_from_wishlist' job.id %}" method="POST">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger btn-sm animated-btn">Remove</button>
+                        </form>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p class="text-center text-warning"> Your Saved Jobs is empty! Start adding jobs you love. </p>
+    {% endif %}
+
+</div>
+{% endblock %}

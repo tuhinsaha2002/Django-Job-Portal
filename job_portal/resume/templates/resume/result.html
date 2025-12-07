@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ATS Score Result</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            text-align: center;
+            padding: 50px;
+        }
+
+        h2 {
+            color: #333;
+        }
+
+        #score-bar {
+            width: 0%;
+            height: 30px;
+            background-color: #4CAF50;
+            margin: 20px auto;
+            border-radius: 5px;
+            transition: width 2s ease-in-out;
+        }
+
+        .score-text {
+            font-size: 24px;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .details {
+            font-size: 16px;
+            color: #666;
+            margin-top: 20px;
+        }
+
+        .container {
+            width: 60%;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+
+        .back-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .back-button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Your ATS Score</h2>
+        <p class="score-text">Resume: {{ resume.candidate_name }}</p>
+        
+        <!-- Animated Progress Bar -->
+        <div id="score-bar"></div>
+
+        <!-- Score as text -->
+        <p class="score-text">{{ score }}%</p>
+
+        <!-- ATS Score Analysis -->
+        <div class="details">
+            <p><strong>ATS Score Analysis:</strong></p>
+            <p>Your resume was evaluated against key job-related keywords. A higher score indicates a better match with job descriptions.</p>
+            <p>Consider adding more relevant keywords, skills, and experience to improve your score.</p>
+        </div>
+
+        <!-- Button to go back -->
+        <a href="{% url 'score_resume' %}">
+            <button class="back-button">Go Back & Upload Another Resume</button>
+        </a>
+    </div>
+
+    <script>
+        // Get the ATS score dynamically from Django and animate the progress bar
+        let score = {{ score }};
+        let bar = document.getElementById('score-bar');
+        let width = 0;
+
+        // Animation for the progress bar
+        let interval = setInterval(function() {
+            if (width >= score) {
+                clearInterval(interval);
+            } else {
+                width++;
+                bar.style.width = width + '%';
+            }
+        }, 20);
+    </script>
+</body>
+</html>

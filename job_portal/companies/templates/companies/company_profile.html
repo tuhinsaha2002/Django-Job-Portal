@@ -1,0 +1,154 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block css %}
+<style>
+    body {
+        background: url("{% static 'images/purple.jpg' %}") no-repeat center center fixed;
+        color: #ffffff;
+        font-family: 'Arial', sans-serif;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .card {
+        border: none;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        background-color: #ffffff;
+    }
+
+    .card-header {
+        background: linear-gradient(to right, #6132b4, #8a4de8);
+        color: #ffffff;
+        font-weight: bold;
+    }
+
+    .form-label {
+        color: #6132b4;
+        font-weight: bold;
+    }
+
+    .form-control {
+        border: 1px solid #8a4de8;
+        border-radius: 6px;
+    }
+
+    .form-control:focus {
+        border-color: #6132b4;
+        box-shadow: 0 0 5px rgba(97, 50, 180, 0.5);
+    }
+
+    .btn-primary {
+        background-color: #6132b4;
+        border-color: #6132b4;
+        transition: background-color 0.3s, box-shadow 0.3s;
+    }
+
+    .btn-primary:hover {
+        background-color: #8a4de8;
+        box-shadow: 0 4px 10px rgba(138, 77, 232, 0.4);
+    }
+</style>
+{% endblock css %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-lg">
+                <div class="card-header text-center">
+                    <h3>Complete Your Company Profile</h3>
+                </div>
+                <div class="card-body">
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        
+                        <!-- Company Name -->
+                        <div class="mb-3">
+                            <label for="id_company_name" class="form-label">Company Name</label>
+                            <input 
+                                type="text" 
+                                name="company_name" 
+                                id="id_company_name" 
+                                class="form-control" 
+                                value="{{ form.company_name.value|default:'' }}">
+                        </div>
+
+                        <!-- Description -->
+                        <div class="mb-3">
+                            <label for="id_description" class="form-label">Description</label>
+                            <textarea 
+                                name="description" 
+                                id="id_description" 
+                                class="form-control">{{ form.description.value|default:'' }}</textarea>
+                        </div>
+
+                        <!-- Location -->
+                        <div class="mb-3">
+                            <label for="id_location" class="form-label">Location</label>
+                            <input 
+                                type="text" 
+                                name="location" 
+                                id="id_location" 
+                                class="form-control" 
+                                value="{{ form.location.value|default:'' }}">
+                        </div>
+
+                        <!-- Website -->
+                        <div class="mb-3">
+                            <label for="id_website" class="form-label">Website</label>
+                            <input 
+                                type="url" 
+                                name="website" 
+                                id="id_website" 
+                                class="form-control" 
+                                value="{{ form.website.value|default:'' }}">
+                        </div>
+
+                        <!-- Email -->
+                        <div class="mb-3">
+                            <label for="id_email" class="form-label">Email</label>
+                            <input 
+                                type="email" 
+                                name="email" 
+                                id="id_email" 
+                                class="form-control" 
+                                value="{{ form.email.value|default:form.initial.email }}">
+                        </div>
+
+                        <!-- Phone Number -->
+                        <div class="mb-3">
+                            <label for="id_phone_number" class="form-label">Phone Number</label>
+                            <input 
+                                type="tel" 
+                                name="phone_number" 
+                                id="id_phone_number" 
+                                class="form-control" 
+                                value="{{ form.phone_number.value|default:'' }}">
+                        </div>
+
+                        <!-- Logo -->
+                        <div class="mb-3">
+                            <label for="id_logo" class="form-label">Company Logo</label>
+                            <input 
+                                type="file" 
+                                name="logo" 
+                                id="id_logo" 
+                                class="form-control">
+                        </div>
+
+                        <!-- Save Button -->
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary btn-lg">Save Profile</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

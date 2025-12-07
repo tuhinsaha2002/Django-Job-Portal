@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% block title %}Provide Feedback{% endblock title %}
+
+{% block content %}
+<style>
+/* Feedback Form Styles */
+.feedback-card {
+    border: none;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.feedback-card-header {
+    background-color: #ff6f61;
+    color: white;
+    font-weight: bold;
+}
+
+.feedback-form {
+    margin-top: 10px;
+}
+
+/* Textarea styling */
+.feedback-textarea {
+    border-radius: 8px;
+    padding: 10px;
+    font-size: 16px;
+    resize: none;
+}
+
+/* Button styling */
+.feedback-submit-btn {
+    border-radius: 8px;
+    background-color: #ff6f61;
+    border-color: #ff6f61;
+}
+
+/* Adjust width specifically towards the right */
+@media (min-width: 768px) {
+    .col-md-8.col-lg-7 {
+        max-width: 70%; /* Adjust percentage to control the width */
+    }
+}
+</style>
+
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-7"> <!-- Adjusted width -->
+            <div class="card shadow feedback-card">
+                <div class="card-header text-center feedback-card-header">
+                    <h4>Provide Feedback</h4>
+                </div>
+                <div class="card-body">
+                    <form method="POST" class="feedback-form">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <textarea 
+                                name="feedback" 
+                                rows="5" 
+                                class="form-control feedback-textarea" 
+                                placeholder="Provide feedback here" 
+                                required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-danger w-100 mt-3 feedback-submit-btn">
+                            Submit Feedback
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

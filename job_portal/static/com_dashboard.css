@@ -1,0 +1,517 @@
+body {
+    background-color: #f2f2f2; /* Light gray background */
+    margin: 0;
+    font-family: Arial, sans-serif;
+    zoom: 90%;
+    padding-top: 80px; 
+}
+
+/* ============================================= Navbar ======================================================*/
+/* Colors */
+.text-purple {
+    color: #6a0dad; /* Purple */
+}
+
+.btn-purple {
+    background-color: #6a0dad;
+    color: white;
+}
+
+.btn-purple:hover {
+    background-color: #5a099d;
+}
+
+.search-bar {
+    border: 1px solid #ccc;
+    background-color: #f2f2f2; /* Light gray */
+    transition: background-color 0.3s, color 0.3s; /* Smooth transition */
+}
+
+.search-bar:hover {
+    background-color: white; /* White background */
+    color: #6a0dad; /* Purple text */
+}
+
+.logo {
+    height: 40px;
+}
+
+.profile-img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.navbar {
+    padding: 1rem 1.5rem;/* Ensure it stays above other elements */
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+}
+
+/* ================================ Left  Sidebar ================================================================== */
+
+/* Sidebar Styles */
+/* Sidebar */
+.sidebar {
+    height: 100vh;
+    background-color: #6a0dad; /* Purple */
+    padding-top: 20px;
+    color: white;
+    position: fixed;
+    top: 70px; /* Adjusted to prevent overlap with navbar */
+    left: 0;
+    width: 250px;
+    transition: all 0.3s ease;
+    z-index: 1; /* Sidebar stays below the navbar */
+}
+
+/* Sidebar Header */
+.sidebar .sidebar-header {
+    text-align: center;
+}
+
+.sidebar .sidebar-header h3 {
+    color: white;
+    font-size: 24px;
+}
+
+/* Dashboard Section */
+.sidebar .dashboard-section {
+    font-size: 20px;
+    font-weight: bold;
+    color: #FFA500; /* Orange color for Dashboard */
+    padding-left: 10px;
+    padding-top: 15px;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    border-bottom: 8px solid white; /* Added white border */
+}
+
+/* Sidebar Links */
+.sidebar .components {
+    padding-left: 0;
+    margin-top: 30px;
+}
+
+.sidebar .components li {
+    margin-bottom: 20px;
+}
+
+.sidebar .components li a {
+    color: white;
+    font-size: 18px;
+    text-decoration: none;
+    padding: 10px 20px;
+    display: block; /* Ensures full area is clickable */
+    border-radius: 5px; /* Rounded corners */
+}
+
+/* Hover effect with opposite color */
+.sidebar .components li a:hover,
+.sidebar .components li a.active {
+    background-color: #f5f5f5; /* Light gray background for hover */
+    color: #6a0dad; /* Purple text color for hover */
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.sidebar .components li a i {
+    margin-right: 10px;
+}
+
+/* Main content */
+.col-md-9 {
+    margin-left: 270px; /* Adjusted space for sidebar */
+    padding: 20px;
+}
+
+.text-purple {
+    color: #6a0dad; /* Purple */
+}
+
+
+/* ============================================ Right Sidebar ====================================================== */
+
+/* Right Sidebar Styles */
+.sidebar-right {
+    height: 100vh;
+    background-color: white; /* White primary background */
+    color: #6a0dad; /* Purple text */
+    position: fixed;
+    top: 70px; /* Adjusted to prevent overlap with navbar */
+    right: 0; /* Positioned on the right side */
+    width: 250px;
+    transition: all 0.3s ease;
+    z-index: 1; /* Sidebar stays below the navbar */
+    padding-top: 20px;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1); /* Add shadow for a subtle border */
+}
+
+/* Right Sidebar Header */
+.sidebar-right .sidebar-header {
+    text-align: center;
+    padding-bottom: 20px;
+    border-bottom: 2px solid #6a0dad; /* Purple border */
+}
+
+.sidebar-right .sidebar-header h3 {
+    color: #6a0dad; /* Purple header text */
+    font-size: 24px;
+}
+
+/* Right Sidebar Links */
+.sidebar-right .components {
+    padding-left: 0;
+    margin-top: 30px;
+}
+
+.sidebar-right .components li {
+    margin-bottom: 20px;
+}
+
+.sidebar-right .components li a {
+    color: #6a0dad; /* Purple text for links */
+    font-size: 18px;
+    text-decoration: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    display: block;
+}
+
+.sidebar-right .components li a:hover,
+.sidebar-right .components li.active {
+    background-color: #6a0dad; /* Purple background on hover */
+    color: white; /* White text on hover */
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.sidebar-right .components li a i {
+    margin-right: 10px;
+}
+
+/* Adjusting space for right sidebar */
+.col-md-9 {
+    margin-right: 270px; /* Space for the right sidebar */
+    padding: 20px;
+}
+
+
+/* ================================== Main Content ================================= */
+
+/* Main Content Styles */
+.main-content {
+    background-color: #f9f9f9;
+    padding: 20px;
+    margin-left: 250px;
+}
+
+/* Card Styles */
+.main-cards {
+    height: 150px;
+    width: 250px;
+    background-color: white;
+    border: 1px solid #ddd; /* Light border */
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.card-body {
+    text-align: center;
+    padding: 20px;
+}
+
+.card-title {
+    font-size: 36px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.card-text {
+    font-size: 16px;
+    color: #555;
+}
+
+/* Card Footer (Line at the bottom) */
+.card-footer {
+    height: 4px;
+    border-radius: 0 0 8px 8px;
+}
+
+.card-line-green {
+    background-color: #28a745; /* Green */
+}
+
+.card-line-lightblue {
+    background-color: #17a2b8; /* Light Blue */
+}
+
+.card-line-orange {
+    background-color: #fd7e14; /* Orange */
+}
+
+/* Text Color */
+.text-green {
+    color: #28a745; /* Green */
+}
+
+.text-lightblue {
+    color: #17a2b8; /* Light Blue */
+}
+
+.text-orange {
+    color: #fd7e14; /* Orange */
+}
+
+
+
+.col-md-4 {
+    width: 25%; /* Adjust this value to control the width of each card */
+    margin: 0 auto; /* Centers the cards if the width is less than 100% */
+}
+
+/* For responsiveness */
+@media (max-width: 768px) {
+    .col-md-4 {
+        width: 100%; /* Each card takes up full width on smaller screens */
+    }
+}
+
+
+/* ============================================= Recommended Jobs ===============================================================   */
+
+.recommended-jobs-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.recommended-jobs-card .card-header {
+    background-color: #6a0dad; /* Purple background */
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.recommended-jobs-card ul {
+    padding-left: 0;
+}
+
+.recommended-jobs-card li {
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.recommended-jobs-card li:last-child {
+    border-bottom: none;
+}
+
+.btn-outline-purple {
+    color: #6a0dad;
+    border: 1px solid #6a0dad;
+    border-radius: 5px;
+    padding: 5px 10px;
+    font-size: 14px;
+}
+
+.btn-outline-purple:hover {
+    background-color: #6a0dad;
+    color: white;
+}
+
+/* Styles for applicant profile image */
+.applicant-img {
+    width: 110px; /* Adjust size as needed */
+    height: 100px; /* Adjust size as needed */
+    border-radius: 50%; /* Makes the image circular */
+    object-fit: cover;
+    margin-right: 15px; /* Adds space between the image and the name */
+}
+
+/* Styles for applicant name */
+.recommended-jobs-card .d-flex.ml-3 {
+    flex-shrink: 0; /* Prevent the name from shrinking */
+}
+
+/* Role and applied date - stacked vertically and centered */
+.recommended-jobs-card .d-flex.flex-column.justify-content-center.flex-grow-1.text-center {
+    flex-grow: 1; /* This ensures it occupies available space and is centered */
+}
+
+/* Status and view profile button (rightmost) */
+.recommended-jobs-card .d-flex.flex-column.align-items-end.ml-auto {
+    text-align: right;
+    margin-left: auto; /* Pushes this section to the far right */
+}
+
+/* View More Button */
+#view-more-btn {
+    margin-top: 20px;
+}
+
+
+
+/* ===================================== Right sidebar ================================================  */
+
+/* General Sidebar Styling */
+.sidebar-right {
+    background-color: #ffffff;
+    padding: 20px;
+    min-height: 100vh;
+    border-left: 2px solid #eaeaea;
+}
+
+/* Profile Section: Circular Border with Conic Gradient */
+.profile-photo .progress-border {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    margin: 0 auto;
+    border-radius: 50%;
+    background: conic-gradient(#6a1b9a 0% 25%, #ab47bc 25% 50%, #6a1b9a 50% 75%, #ab47bc 75% 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 4px solid #6a1b9a; /* Purple border around the progress circle */
+}
+
+/* Ensure the image fits within the circular border */
+.profile-photo .progress-border img {
+    width: 90%;
+    height: 90%;
+    object-fit: cover;
+    border-radius: 50%;
+    background: #fff; /* White background between image and border */
+}
+
+/* Progress Circle Container */
+.progress-circle-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.progress-circle {
+    position: relative;
+    width: 150px;
+    height: 150px;
+    margin: 0 auto;
+}
+
+.circle-background {
+    fill: none;
+    stroke: #e6e6e6;
+    stroke-width: 10;
+}
+
+.circle-progress {
+    fill: none;
+    stroke: #4CAF50;
+    stroke-width: 10;
+    stroke-linecap: round;
+    transform: rotate(-90deg);
+    transform-origin: 50% 50%;
+    stroke-dasharray: 408; /* Circumference = 2 * π * r (r=65) */
+    stroke-dashoffset: 408;
+    transition: stroke-dashoffset 2s ease-in-out;
+}
+
+.progress-circle img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 80px; /* Adjust image size */
+    height: 80px;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid white; /* Add border around image */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.progress-details {
+    margin-top: 10px;
+}
+
+.progress-name {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+}
+
+.progress-score {
+    font-size: 16px;
+    color: #555;
+    margin-top: 5px;
+}
+
+/* Bio Section */
+.bio-section h6 {
+    color: #6a1b9a;
+    font-weight: bold;
+}
+
+.bio-section .bio-text {
+    font-size: 14px;
+    color: #555;
+    margin-top: 10px;
+    line-height: 1.6;
+}
+
+/* Skills Section */
+.skills-section h6 {
+    color: #6a1b9a;
+    font-weight: bold;
+}
+
+.skills-section .skills-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 10px;
+}
+
+.skills-section .skills-list li {
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.skills-section .skills-list li i {
+    color: #6a1b9a;
+    margin-right: 8px;
+    font-size: 16px;
+}
+
+/* Progress Circle with Padding Around the Image */
+/* Progress Circle with Padding Around the Image */
+.progress-border {
+    position: relative;
+    width: 150px; /* Increased width of the progress circle */
+    height: 150px; /* Increased height of the progress circle */
+    margin: 0 auto;
+    border-radius: 50%;
+    background: conic-gradient(#6a1b9a 0% 25%, #ab47bc 25% 50%, #6a1b9a 50% 75%, #ab47bc 75% 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px; /* Adds space between the image and the border */
+    border: 4px solid #6a1b9a; /* Purple border */
+}
+
+/* Image inside the progress bar */
+.progress-border img {
+    width: 130px; /* Increased width of the image */
+    height: 130px; /* Increased height of the image */
+    object-fit: cover; /* Ensures the image fills the area without distortion */
+    border-radius: 50%; /* Circular image */
+    background: #fff; /* Optional: White background for the image */
+    border: 3px solid #fff; /* Optional: Add a white border to the image */
+}

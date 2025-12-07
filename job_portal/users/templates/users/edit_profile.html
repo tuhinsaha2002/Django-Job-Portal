@@ -1,0 +1,154 @@
+{% extends 'base.html' %}
+{% block title %}Edit Profile{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <!-- Header Section -->
+                <div class="card-header bg-primary text-white text-center">
+                    <h4>Edit Profile</h4>
+                </div>
+
+                <!-- Form Section -->
+                <div class="card-body">
+                    <!-- Flash Messages -->
+                    {% if messages %}
+                        {% for message in messages %}
+                            {% if "error" in message.tags %}
+                                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            {% else %}
+                                <div class="alert alert-{{ message.tags|default:"info" }} alert-dismissible fade show" role="alert">
+                            {% endif %}
+                                {{ message }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+
+                    <!-- Profile Edit Form -->
+                    <form method="post" enctype="multipart/form-data" novalidate>
+                        {% csrf_token %}
+                        <!-- First Name -->
+                        <div class="mb-3">
+                            {{ form.first_name.label_tag }}
+                            {{ form.first_name }}
+                            {% if form.first_name.errors %}
+                                <div class="text-danger small">{{ form.first_name.errors }}</div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Last Name -->
+                        <div class="mb-3">
+                            {{ form.last_name.label_tag }}
+                            {{ form.last_name }}
+                            {% if form.last_name.errors %}
+                                <div class="text-danger small">{{ form.last_name.errors }}</div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Email -->
+                        <div class="mb-3">
+                            {{ form.email.label_tag }}
+                            {{ form.email }}
+                            {% if form.email.errors %}
+                                <div class="text-danger small">{{ form.email.errors }}</div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Date of Birth (Calendar) -->
+                        <div class="mb-3">
+                            <label for="id_dob" class="form-label">Date of Birth</label>
+                            <input 
+                                type="date" 
+                                name="dob" 
+                                value="{{ form.dob.value }}" 
+                                class="form-control" 
+                                id="id_dob">
+                        </div>
+
+                        <!-- Address -->
+                        <div class="mb-3">
+                            {{ form.address.label_tag }}
+                            {{ form.address }}
+                            {% if form.address.errors %}
+                                <div class="text-danger small">{{ form.address.errors }}</div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Phone Number -->
+                        <div class="mb-3">
+                            {{ form.phone_no.label_tag }}
+                            {{ form.phone_no }}
+                            {% if form.phone_no.errors %}
+                                <div class="text-danger small">{{ form.phone_no.errors }}</div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Bio -->
+                        <div class="mb-3">
+                            {{ form.bio.label_tag }}
+                            {{ form.bio }}
+                            {% if form.bio.errors %}
+                                <div class="text-danger small">{{ form.bio.errors }}</div>
+                            {% endif %}
+                        </div>
+
+                        <!-- LinkedIn Profile -->
+                        <div class="mb-3">
+                            {{ form.linkedin_profile.label_tag }}
+                            {{ form.linkedin_profile }}
+                            {% if form.linkedin_profile.errors %}
+                                <div class="text-danger small">{{ form.linkedin_profile.errors }}</div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Location -->
+                        <div class="mb-3">
+                            {{ form.location.label_tag }}
+                            {{ form.location }}
+                            {% if form.location.errors %}
+                                <div class="text-danger small">{{ form.location.errors }}</div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Profile Picture -->
+                        <div class="mb-3">
+                            {{ form.profile_picture.label_tag }}
+                            {{ form.profile_picture }}
+                            {% if form.profile_picture.errors %}
+                                <div class="text-danger small">{{ form.profile_picture.errors }}</div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Resume -->
+                        <div class="mb-3">
+                            {{ form.resume.label_tag }}
+                            {{ form.resume }}
+                            {% if form.resume.errors %}
+                                <div class="text-danger small">{{ form.resume.errors }}</div>
+                            {% endif %}
+                            {% if request.user.applicant.resume %}
+                                <div class="mt-2">
+                                    <small class="text-muted">Current resume: 
+                                        <a href="{{ request.user.applicant.resume.url }}" target="_blank">View</a>
+                                    </small>
+                                </div>
+                            {% endif %}
+                        </div>
+
+                        <!-- Save Button -->
+                        <button type="submit" class="btn btn-primary w-100">Save Changes</button>
+                    </form>
+                </div>
+
+                <!-- Footer Section -->
+                <div class="card-footer text-center">
+                    <a href="{% url 'profile' %}" class="btn btn-outline-danger">Cancel</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

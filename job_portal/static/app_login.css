@@ -1,0 +1,85 @@
+/* Container Styling */
+.container {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+/* Card Styling */
+.login-card {
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    border: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    position: absolute;
+    width: 500px;
+    top: 180px;
+    left: 50%;
+}
+
+.login-card-header {
+    background-color: #6132b4; /* Purple header */
+    color: white;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    padding: 1rem;
+    text-align: center;
+    font-size: 1.5rem;
+}
+
+/* Button Styling */
+.btn-primary {
+    background-color: #6132b4; /* Purple button */
+    border: none;
+    transition: background-color 0.3s ease;
+    font-weight: bold;
+}
+
+.btn-primary:hover {
+    background-color: #4d278d; /* Darker purple on hover */
+}
+
+/* Link Styling */
+.signup-link {
+    color: #6132b4; /* Purple color for signup link */
+    font-weight: bold;
+}
+
+.signup-link:hover {
+    color: #4d278d; /* Darker purple hover */
+    text-decoration: underline;
+}
+
+/* Label Styling */
+label {
+    color: #6132b4; /* Purple color for labels */
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    display: inline-block;
+}
+
+/* Input Field Styling */
+input.form-control {
+    background-color: #ffffff;
+    border-radius: 10px;
+    border: 1px solid #6132b4; /* Purple border for inputs */
+    padding: 10px;
+    color: #333333;
+}
+
+input.form-control:focus {
+    border-color: #4d278d; /* Darker purple when focused */
+    box-shadow: 0 0 5px rgba(77, 39, 141, 0.5); /* Focused input glow effect */
+}
+
+/* Alert Styling */
+.alert-danger {
+    background-color: #f8d7da; /* Light red background */
+    color: #842029; /* Red text */
+    border: 1px solid #f5c6cb; /* Light red border */
+    padding: 0.75rem 1rem;
+    border-radius: 4px;
+}

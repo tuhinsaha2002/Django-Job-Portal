@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'com_pro.css' %}">
+{% endblock css %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1>Applicant Profile</h1>
+    <div class="profile-picture">
+        {% if applicant_profile.profile_picture %}
+            <img src="{{ applicant_profile.profile_picture.url }}" alt="Profile Picture">
+        {% else %}
+            <img src="{% static 'default_profile_picture.png' %}" alt="Default Profile Picture">
+        {% endif %}
+    </div>
+    <p><strong>Full Name:</strong> {{ applicant_profile.user.get_full_name }}</p>
+    <p><strong>Email:</strong> {{ applicant_profile.user.email }}</p>
+    <p><strong>Location:</strong> {{ applicant_profile.location }}</p>
+    <p><strong>Bio:</strong> {{ applicant_profile.bio }}</p>
+    <p><strong>Skills:</strong></p>
+    <div class="skills">
+        {% for skill in applicant_profile.skills.all %}
+            <span>{{ skill.name }}</span>
+        {% endfor %}
+    </div>
+    {% if applicant_profile.resume %}
+        <a href="{{ applicant_profile.resume.url }}" target="_blank" class="view-resume-btn">View Resume</a>
+    {% endif %}
+</div>
+{% endblock %}

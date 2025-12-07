@@ -1,0 +1,116 @@
+/* General Styling */
+body {
+    background: url('../images/log.png') no-repeat center center fixed;
+    background-size: cover;
+    font-family: 'Poppins', sans-serif;
+    color: #ffffff;
+    overflow: hidden; /* Keep the page body without scrolling */
+}
+
+/* Container Styling */
+.container {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+/* Card Styling */
+.signup-card {
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 15px;
+    border: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow: hidden; /* Prevent overflowing from card */
+    width: 500px;
+    max-height: 600px; /* Set a max height for the card */
+    position: absolute;
+    top: 10%;
+    left: 72%;
+    transform: translateX(-50%);
+    overflow-y: auto; /* Allow scrolling inside the card */
+}
+
+/* Header Styling */
+.signup-card-header {
+    background-color: #6132b4; /* Purple header */
+    color: white;
+    padding: 1.2rem;
+    text-align: center;
+    font-size: 1.6rem;
+    font-weight: bold;
+}
+
+/* Input Styling */
+input.form-control {
+    background-color: #ffffff;
+    border-radius: 10px;
+    border: 1px solid #6132b4; /* Purple border */
+    padding: 10px;
+    color: #333333;
+    font-size: 1rem;
+}
+
+/* Focused Input Styling */
+input.form-control:focus {
+    border-color: #4d278d; /* Darker purple focus border */
+    box-shadow: 0 0 5px rgba(77, 39, 141, 0.5); /* Glow effect on focus */
+}
+
+/* Invalid Feedback Styling */
+.invalid-feedback {
+    color: #ff4d4d; /* Red color for errors */
+    font-size: 0.9rem;
+    margin-top: 0.25rem;
+    display: none;
+}
+
+/* Highlight input fields with errors */
+input.form-control.is-invalid {
+    border-color: #ff4d4d;
+    box-shadow: 0 0 5px rgba(255, 77, 77, 0.5);
+}
+
+/* Label Styling */
+label.form-label {
+    color: #6132b4; /* Purple text */
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+/* Button Styling */
+.btn-primary {
+    background-color: #6132b4; /* Purple button */
+    border: none;
+    font-weight: bold;
+    padding: 10px;
+    transition: all 0.3s ease-in-out;
+    font-size: 1.2rem;
+    border-radius: 10px;
+}
+
+.btn-primary:hover {
+    background-color: #4d278d; /* Darker purple on hover */
+    box-shadow: 0 4px 10px rgba(77, 39, 141, 0.5);
+}
+
+/* Link Styling */
+.signup-link {
+    color: #6132b4; /* Purple link */
+    font-weight: bold;
+}
+
+.signup-link:hover {
+    color: #4d278d; /* Darker purple hover */
+    text-decoration: underline;
+}
+
+/* Alert Styling */
+.alert-danger {
+    background-color: #f8d7da;
+    color: #842029;
+    border: 1px solid #f5c6cb;
+    padding: 0.75rem 1rem;
+    border-radius: 10px;
+}

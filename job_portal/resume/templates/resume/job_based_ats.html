@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job-Based ATS Score</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #6f86d6, #48c6ef);
+            color: #fff;
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 700px;
+            background-color: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        h2 {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 20px;
+            animation: slideDown 1s ease-in-out;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .form-group {
+            width: 100%;
+        }
+
+        .form-group label {
+            font-size: 1rem;
+            margin-bottom: 5px;
+            display: block;
+        }
+
+        .form-group textarea,
+        .form-group input {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            background: rgba(255, 255, 255, 0.8);
+            color: #333;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group textarea:focus,
+        .form-group input:focus {
+            outline: none;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            font-size: 1.2rem;
+            background: #48c6ef;
+            border: none;
+            border-radius: 10px;
+            color: #fff;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Check Your ATS Score by Job Description</h2>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            <!-- Resume Upload -->
+            <div class="form-group">
+                <label for="uploaded_resume">Upload Your Resume (PDF/DOCX):</label>
+                <input type="file" id="uploaded_resume" name="uploaded_resume" required>
+            </div>
+            
+            <!-- Job Description -->
+            <div class="form-group">
+                <label for="job_description">Paste Job Description:</label>
+                <textarea id="job_description" name="job_description" rows="6" required></textarea>
+            </div>
+            
+            <button type="submit">Analyze ATS Score</button>
+        </form>
+    </div>
+</body>
+</html>

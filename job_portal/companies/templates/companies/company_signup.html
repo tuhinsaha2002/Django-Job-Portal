@@ -1,0 +1,122 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Company Signup{% endblock %}
+
+{% block css %}
+<style>
+    body {
+        background: url("{% static 'images/signup.png' %}") no-repeat center center fixed;
+        color: #ffffff;
+        font-family: 'Arial', sans-serif;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .card {
+        border: none;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        background-color: #ffffff;
+        width: 100%;
+        max-width: 450px;
+        position: absolute;
+        top: 13%;
+        left: 57%;
+    }
+
+    .card-header {
+        background: linear-gradient(to right, #6132b4, #8a4de8);
+        color: #fff;
+        font-weight: bold;
+    }
+
+    .form-label {
+        color: #6132b4;
+        font-weight: bold;
+    }
+
+    .form-control {
+        border: 1px solid #8a4de8;
+        border-radius: 6px;
+    }
+
+    .form-control:focus {
+        border-color: #6132b4;
+        box-shadow: 0 0 5px rgba(97, 50, 180, 0.5);
+    }
+
+    .btn-primary {
+        background-color: #6132b4;
+        border-color: #6132b4;
+        transition: background-color 0.3s, box-shadow 0.3s;
+    }
+
+    .btn-primary:hover {
+        background-color: #8a4de8;
+        box-shadow: 0 4px 10px rgba(138, 77, 232, 0.4);
+    }
+
+    .text-primary {
+        color: #6132b4 !important;
+    }
+
+    .text-primary:hover {
+        color: #8a4de8 !important;
+        text-decoration: underline;
+    }
+</style>
+{% endblock css %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header text-center">
+                    <h4>Company Signup</h4>
+                </div>
+                <div class="card-body">
+                    {% if form.errors %}
+                        <div class="alert alert-danger">
+                            <ul>
+                                {% for field in form %}
+                                    {% for error in field.errors %}
+                                        <li>{{ error }}</li>
+                                    {% endfor %}
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endif %}
+                    
+                    <form method="post" novalidate>
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="id_username" class="form-label">Username</label>
+                            <input type="text" name="username" value="{{ form.username.value|default:'' }}" class="form-control" id="id_username">
+                        </div>
+                        <div class="mb-3">
+                            <label for="id_email" class="form-label">Email</label>
+                            <input type="email" name="email" value="{{ form.email.value|default:'' }}" class="form-control" id="id_email">
+                        </div>
+                        <div class="mb-3">
+                            <label for="id_password1" class="form-label">Password</label>
+                            <input type="password" name="password1" class="form-control" id="id_password1">
+                        </div>
+                        <div class="mb-3">
+                            <label for="id_password2" class="form-label">Confirm Password</label>
+                            <input type="password" name="password2" class="form-control" id="id_password2">
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Sign Up</button>
+                    </form>
+                </div>
+                <div class="card-footer text-center">
+                    <p>Already have an account? <a href="{% url 'company_login' %}" class="text-primary">Login here</a>.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

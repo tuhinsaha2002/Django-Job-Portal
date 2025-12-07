@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ATS Score Results</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #00c6ff, #0072ff);
+            color: #fff;
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 700px;
+            background-color: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            animation: slideDown 1s ease-in-out;
+        }
+
+        p {
+            font-size: 1.2rem;
+            margin: 10px 0;
+        }
+
+        .score {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #ffeb3b;
+            animation: bounce 1s infinite;
+        }
+
+        button {
+            background: #48c6ef;
+            color: #fff;
+            border: none;
+            padding: 15px 25px;
+            margin: 20px 10px;
+            font-size: 1.2rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        @keyframes slideDown {
+            from {
+                transform: translateY(-20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Your Job-Based ATS Score</h2>
+        <p>Your resume scored:</p>
+        <div class="score">{{ score }}%</div>
+        <p>Job Description Used:</p>
+        <p style="font-style: italic;">"{{ job_description }}"</p>
+        
+        <button onclick="window.location.href='{% url 'job_based_ats' %}'">Check Another Job Description</button>
+        <button onclick="window.location.href='{% url 'score_resume' %}'">Back to Resume Upload</button>
+    </div>
+</body>
+</html>

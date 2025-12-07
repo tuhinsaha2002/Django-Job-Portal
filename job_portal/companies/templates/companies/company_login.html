@@ -1,0 +1,133 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block css %}
+<style>
+    body {
+        background: url("{% static 'images/log.png' %}") no-repeat center center fixed;
+        color: #ffffff;
+        font-family: 'Arial', sans-serif;
+        height: 100vh;
+        margin: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding-top: 6rem; /* Added padding from the top */
+        box-sizing: border-box; /* Ensure padding doesn't affect layout */
+    }
+
+    .card {
+        border: none;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        background-color: #ffffff;
+        width: 100%;
+        max-width: 400px;
+        position: absolute;
+        top: 25%;
+        left: 53%;
+    }
+
+    .card-header {
+        background: linear-gradient(to right, #6132b4, #8a4de8);
+        color: #ffffff;
+        font-weight: bold;
+        text-align: center;
+        padding: 1rem;
+    }
+
+    .form-label {
+        color: #6132b4;
+        font-weight: bold;
+    }
+
+    .form-control {
+        border: 1px solid #8a4de8;
+        border-radius: 6px;
+    }
+
+    .form-control:focus {
+        border-color: #6132b4;
+        box-shadow: 0 0 5px rgba(97, 50, 180, 0.5);
+    }
+
+    .btn {
+        background-color: #6132b4;
+        border: none;
+        color: #ffffff;
+        padding: 10px 20px;
+        border-radius: 6px;
+        transition: background-color 0.3s, box-shadow 0.3s;
+        width: 100%;
+        font-size: 16px;
+        font-weight: bold;
+    }
+
+    .btn:hover {
+        background-color: #8a4de8;
+        box-shadow: 0 4px 10px rgba(138, 77, 232, 0.4);
+    }
+
+    .card-footer a {
+        color: #6132b4;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    .card-footer a:hover {
+        text-decoration: underline;
+    }
+</style>
+{% endblock css %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h3>Company Login</h3>
+    </div>
+    <div class="card-body">
+        <!-- Display messages -->
+        {% if messages %}
+            <div class="alert alert-info">
+                {% for message in messages %}
+                    <p>{{ message }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <form method="post" novalidate>
+            {% csrf_token %}
+            <!-- Username -->
+            <div class="mb-4">
+                <label for="id_username" class="form-label">Username</label>
+                <input 
+                    type="text" 
+                    name="username" 
+                    value="{{ form.username.value|default:'' }}" 
+                    class="form-control" 
+                    id="id_username">
+            </div>
+
+            <!-- Password -->
+            <div class="mb-4">
+                <label for="id_password" class="form-label">Password</label>
+                <input 
+                    type="password" 
+                    name="password" 
+                    class="form-control" 
+                    id="id_password">
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit" class="btn btn-lg">Login</button>
+        </form>
+    </div>
+    <div class="card-footer text-center">
+        <p>Don't have an account? <a href="{% url 'company_signup' %}">Sign up here</a>.</p>
+        <p><a href="{% url 'request_otp' %}" class="text-decoration-none">Forgot Password?</a></p>
+    </div>
+</div>
+{% endblock %}

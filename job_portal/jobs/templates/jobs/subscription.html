@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %} Subscription {% endblock title %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'subscription.css' %}">
+{% endblock css %}
+
+{% block content %}
+<div class="subscription-container">
+    <h1>Choose Your <span class="highlight">Subscription Plan</span></h1>
+    <p>14 days free trial. No contract or credit card required.</p>
+
+    <div class="subscription-plans">
+        <!-- Free Plan -->
+        <div class="plan-box starter">
+            <h3>Free Plan</h3>
+            <h2>₹0/month</h2>
+            <ul>
+                <li>Apply up to 3 jobs/month</li>
+                <li>Limited profile customization</li>
+                <li>No advanced features</li>
+            </ul>
+            <a href="{% url 'change_plan' 'Free' %}" class="cta-button {% if applicant.subscription_plan == 'Free' %}selected{% endif %}">GET STARTED</a>
+        </div>
+
+        <!-- ₹499 Plan -->
+        <div class="plan-box pro">
+            <h3>₹499/month Plan</h3>
+            <h2>₹499/month</h2>
+            <ul>
+                <li>Apply up to 6 jobs/month</li>
+                <li>Custom profile with more options</li>
+                <li>Priority job alerts</li>
+            </ul>
+            <!-- Add the Razorpay button for ₹499 plan -->
+            <button id="rzp-button-499" class="cta-button {% if applicant.subscription_plan == '499' %}selected{% endif %}">
+                GET STARTED
+            </button>
+        </div>
+
+        <!-- ₹1200 Plan -->
+        <div class="plan-box enterprise">
+            <h3>₹1200/month Plan</h3>
+            <h2>₹1200/month</h2>
+            <ul>
+                <li>Apply up to 12 jobs/month</li>
+                <li>Premium profile customization</li>
+                <li>Exclusive job opportunities</li>
+            </ul>
+            <!-- Add the Razorpay button for ₹1200 plan -->
+            <button id="rzp-button-1200" class="cta-button {% if applicant.subscription_plan == '1200' %}selected{% endif %}">
+                GET STARTED
+            </button>
+        </div>
+    </div>
+
+</div>
+
+<!-- Razorpay Payment Integration (for Paid Plans) -->
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+    function createPayment(plan, amount) {
+        var options = {
+            "key": "{{ razorpay_key }}",  // Razorpay key dynamically passed from the view
+            "amount": amount * 100,  // Convert to subunits (paise)
+            "currency": "INR",
+            "name": "Your Company Name",
+            "description": `Subscription Plan: ₹${plan}`,
+            "handler": function (response) {
+                window.location.href = `/jobs/payment-success?payment_id=${response.razorpay_payment_id}&plan=${plan}`;
+            },
+            "prefill": {
+                "name": "{{ user.first_name }} {{ user.last_name }}",
+                "email": "{{ user.email }}",
+                "contact": "{{ user.profile.phone_number }}"
+            },
+            "theme": {
+                "color": "#3399cc"
+            }
+        };
+        var rzp = new Razorpay(options);
+        rzp.open();
+    }
+
+    document.getElementById("rzp-button-499").onclick = function () {
+        createPayment("499", 499);
+    };
+    document.getElementById("rzp-button-1200").onclick = function () {
+        createPayment("1200", 1200);
+    };
+</script>
+{% endblock content %}

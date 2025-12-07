@@ -1,0 +1,316 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Job Hunt</title>
+  
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+
+  <link rel="stylesheet" href="{% static 'app_dashboard.css' %}">
+</head>
+<body>
+
+<!-- =============================== navbar  =================================   -->
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+    <div class="container-fluid">
+        <!-- Stylish Title -->
+        <a class="navbar-brand text-purple fw-bold fs-4 d-flex align-items-center me-5" href="/">
+            Job<span style="color: #fa6021;">Hunt</span>
+        </a>
+
+        <!-- Search Bar -->
+        <div class="d-flex flex-grow-1 justify-content-center">
+            <form class="d-flex w-50" method="GET" action="{% url 'job_search' %}">
+                <input 
+                    class="form-control me-2 search-bar" 
+                    type="search" 
+                    name="q" 
+                    placeholder="Search jobs..." 
+                    aria-label="Search" 
+                    value="{{ request.GET.q|default:'' }}" 
+                    required>
+                <button class="btn btn-purple" type="submit">Search</button>
+            </form>
+        </div>
+
+        <!-- User Profile -->
+        <div class="d-flex align-items-center">
+            <span class="me-3 user-name text-purple fw-semibold fs-5">
+                {{ request.user.first_name }} {{ request.user.last_name }}
+            </span>
+            {% if request.user.applicant.profile_picture %}
+                <img src="{{ request.user.applicant.profile_picture.url }}" alt="Profile" class="profile-img rounded-circle" style="width: 40px; height: 40px;">
+            {% else %}
+                <img src="{% static 'images/default-profile.png' %}" alt="Default Profile" class="profile-img rounded-circle" style="width: 40px; height: 40px;">
+            {% endif %}
+        </div>
+    </div>
+</nav>
+
+<!-- =================================== Sidebar ======================================  -->
+<div class="container-fluid">
+    <div class="row">
+        <!-- Left Sidebar -->
+        <div class="col-md-2 col-lg-2 sidebar">
+            <div class="dashboard-section">
+                <h4><i class="fas fa-tachometer-alt"></i> DASHBOARD </h4>
+            </div>
+            <ul class="list-unstyled components">
+                <li>
+                    <a href="{% url 'browse_all_jobs' %}"><i class="fas fa-briefcase"></i> Explore Jobs</a>
+                </li>
+                <li>
+                    <a href="{% url 'applied_jobs' %}"><i class="fas fa-check-circle"></i> Applied Jobs</a>
+                </li>
+                <li>
+                    <a href="{% url 'edit_profile' %}"><i class="fas fa-user-edit"></i> Edit Profile</a>
+                </li>
+                <li>
+                    <!-- Delete Profile Button -->
+                    <form action="{% url 'delete_applicant_profile' %}" method="POST" class="d-inline-block" onsubmit="return confirm('Are you sure you want to delete your profile?')">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-link p-0" style="color: white; text-decoration: none; font-size: 18px;">
+                            <i class="fas fa-user-times"></i><span class="ms-3">Delete Profile</span>
+                        </button>
+                    </form>
+                </li>
+                <li>
+                    <a href="{% url 'wishlist' %}"><i class="fas fa-heart"></i> Saved Jobs</a>
+                </li>
+                <li>
+                    <!-- Profile Option (placed above Logout) -->
+                    <a href="{% url 'profile' %}">
+                        <i class="fas fa-user"></i> Profile
+                    </a>
+                </li>
+        
+                <li>
+                    <!-- New Profile Views Option -->
+                    <a href="{% url 'company_views' %}">
+                        <i class="fas fa-eye"></i> Profile Views
+                    </a>
+                </li>
+        
+                <li>
+                    <!-- Subscription Option -->
+                    <a href="{% url 'my_subscription' %}">
+                        <i class="fas fa-money-bill-wave"></i> Subscription
+                    </a>
+                </li>
+                
+                <li>
+                    <!-- Logout Option -->
+                    <a href="{% url 'logout' %}">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </a>
+                </li>
+            </ul>
+        </div>
+        
+        
+        
+<!--------------------------------------------------- Main Content ------------------------------->
+        <div class="col-md-8 main-content">
+
+
+
+
+            
+<!-------------------------------- Alert Messages -->
+              <div class="container">
+                {% if messages %}
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle"></i>
+                        {% for message in messages %}
+                            <p>{{ message }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+
+            <div class="row">
+         <!-- First Card: Applications -->
+        <div class="col-md-4 mb-4 first-card">
+             <div class="card main-cards text-green">
+                <div class="card-body">
+                   <h5 class="card-title">{{ applied_jobs_count }}</h5>
+                  <p class="card-text">Applications Sent</p>
+                </div>
+             <div class="card-footer card-line-green"></div>
+          </div>
+        </div>
+
+
+                <!-- Second Card: Saved Jobs -->
+      <div class="col-md-4 mb-4 second-card">
+          <div class="card main-cards text-lightblue">
+            <div class="card-body">
+            <h5 class="card-title">{{ saved_jobs_count }}</h5>
+            <p class="card-text">Saved Jobs</p>
+           </div>
+        <div class="card-footer card-line-lightblue"></div>
+           </div>
+      </div>
+
+
+                <!-- Third Card: Profile Views -->
+                <div class="col-md-4 mb-4 third-card">
+                    <div class="card main-cards text-orange">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                {{ request.user.applicant.profile_views.count }}
+                            </h5>
+                            <p class="card-text">Profile Views</p>
+                        </div>
+                        <div class="card-footer card-line-orange"></div>
+                    </div>
+                </div>
+                             
+            
+            <!--------------------------------------------------------- recommended jobs ------------------------------------------------------>
+
+            <div class="row">
+                <div class="col-12 mb-4">
+                    <div class="card recommended-jobs-card ms-5">
+                        <div class="card-header bg-purple text-white">
+                            <h4 class="mb-0"><i class="fas fa-star"></i> Recommended Jobs</h4>
+                        </div>
+                        {% if recommended_jobs %}
+                            <div class="card-body">
+                                <ul class="list-unstyled">
+                                    {% for job in recommended_jobs %}
+                                        <li class="mb-3">
+                                            <div class="d-flex align-items-center justify-content-between">
+                                                <!-- Job Logo -->
+                                                <div class="d-flex align-items-center">
+                                                    {% if job.company.logo %}
+                                                        <img src="{{ job.company.logo.url }}" alt="{{ job.company.company_name }}" class="job-logo me-3">
+                                                    {% else %}
+                                                        <img src="{% static 'images/company-placeholder.png' %}" alt="Company Logo Placeholder" class="company-logo me-3">
+                                                    {% endif %}
+                                                    <span><strong>{{ job.title }}</strong> at {{ job.company.company_name }}</span>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex justify-content-end mt-2">
+                                                <a href="{% url 'apply_for_job' job.id %}" class="btn btn-outline-purple btn-sm me-2">Apply Now</a>
+                                                <a href="{% url 'job_info' job.id %}" class="btn btn-outline-secondary btn-sm">View Details</a>
+                                            </div>
+                                            <div class="mt-3">
+                                                <small>Location: {{ job.location }} | Posted: {{ job.created_at|date:"F d, Y" }} | Expiry: {{ job.expiry_date|date:"F d, Y" }}</small>
+                                            </div>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        {% else %}
+                            <div class="card-body">
+                                <p>No recommended jobs available.</p>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+                
+                
+                
+                
+            </div>
+        </div>
+            
+
+
+        
+        <!------------------------------------------------ Right Sidebar (to be updated later) ------------------------->
+        <div class="col-md-2 col-lg-2 sidebar-right">
+            <!-- Profile Section -->
+            <div class="progress-circle-container">
+                <div class="progress-circle">
+                    <svg width="150" height="150">
+                        <!-- Background Circle -->
+                        <circle cx="75" cy="75" r="65" class="circle-background"></circle>
+                        <!-- Animated Progress Circle -->
+                        <circle cx="75" cy="75" r="65" class="circle-progress" id="progress-circle"></circle>
+                    </svg>
+                    <!-- Centered Image -->
+                    <img src="{{ applicant.profile_picture.url }}" alt="Profile Picture" class="progress-circle-image">
+                </div>
+                <div class="progress-details">
+                    <h5 class="progress-name">{{ request.user.first_name }} {{ request.user.last_name }}</h5>
+                    <p><i class="fas fa-envelope"></i> {{ request.user.email }}</p>
+                    <p class="progress-score">ATS Score: {{ ats_score }}%</p>
+                </div>
+            </div>
+            
+            <script>
+                // Get the ATS score dynamically from the server
+                let atsScore = {{ ats_score }};
+                let progressCircle = document.getElementById('progress-circle');
+            
+                // Calculate stroke-dashoffset for the progress circle
+                let circumference = 2 * Math.PI * 65; // Radius = 65
+                let offset = circumference - (circumference * (atsScore / 100));
+            
+                // Update the progress circle's stroke-dashoffset
+                progressCircle.style.strokeDasharray = `${circumference}`;
+                progressCircle.style.strokeDashoffset = `${offset}`;
+            </script>
+            
+            
+            
+        
+            <!-- Bio Section -->
+            <div class="bio-section text-center my-4">
+                <h6 class="text-purple">About Me</h6>
+                <p class="bio-text">
+                    {% if applicant.bio %}
+                        {{ applicant.bio }}
+                    {% else %}
+                        <em>Bio not provided yet.</em>
+                    {% endif %}
+                </p>
+            </div>
+        
+            <!-- Skills Section -->
+            <div class="skills-section text-center my-4">
+                <h6 class="text-purple">Skills</h6>
+                <ul class="list-unstyled skills-list">
+                    {% if applicant.skills.all %}
+                        {% for skill in applicant.skills.all %}
+                            <li><i class="fas fa-check"></i> {{ skill.name }}</li>
+                        {% endfor %}
+                    {% else %}
+                        <li><em>No skills added yet.</em></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+        
+        
+        
+        
+    </div>
+</div>   
+
+
+</div>
+<script>
+    // Get the ATS score dynamically from Django and animate the circular progress bar
+let score = {{ score }};
+let progressCircle = document.querySelector('.circle-progress');
+
+// Calculate the stroke-dashoffset for the given score
+let circumference = 2 * Math.PI * 65; // r = 65
+let offset = circumference - (circumference * (score / 100));
+
+// Animate the progress
+progressCircle.style.strokeDashoffset = offset;
+
+</script>
+</body>
+</html>

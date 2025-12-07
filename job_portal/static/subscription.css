@@ -1,0 +1,73 @@
+.subscription-container {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    color: white;
+    background: linear-gradient(180deg, #6C32B4, #3B18A5);
+    padding: 40px;
+}
+.subscription-container h1 {
+    font-size: 36px;
+    margin-bottom: 10px;
+}
+.subscription-container .highlight {
+    color: #FFD700;
+}
+.subscription-container p {
+    font-size: 16px;
+    margin-bottom: 30px;
+}
+
+.subscription-plans {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.plan-box {
+    background: #2D2D2D;
+    border-radius: 20px;
+    padding: 20px;
+    text-align: center;
+    width: 250px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.plan-box h3 {
+    font-size: 18px;
+    color: #FFD700;
+    margin-bottom: 10px;
+}
+
+.plan-box h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.plan-box ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 20px 0;
+}
+
+.plan-box ul li {
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
+.plan-box .cta-button {
+    background: #FFD700;
+    color: #3B18A5;
+    border: none;
+    border-radius: 10px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.pro {
+    border: 3px solid #FFD700;
+    transform: scale(1.05);
+}

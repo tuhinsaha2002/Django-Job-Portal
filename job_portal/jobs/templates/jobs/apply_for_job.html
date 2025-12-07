@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block css %}
+<style>
+    .custom-message {
+        background-color: #d0ebff; /* Light blue background */
+        color: #084298; /* Dark blue text */
+        border: 1px solid #84c5f4;
+        padding: 10px;
+        border-radius: 5px;
+    }
+</style>
+{% endblock css %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Apply for {{ job.title }}</h2>
+    
+    <!-- Display messages -->
+    {% if messages %}
+        <div class="mb-3">
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} custom-message">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+    
+    <form method="post">
+        {% csrf_token %}
+        
+        <!-- Display the user's resume (downloadable) -->
+        {% if current_resume %}
+            <div class="mb-3">
+                <label class="form-label">Your Resume</label>
+                <div>
+                    <a href="{{ current_resume.url }}" target="_blank" class="btn btn-outline-primary">Download Resume</a>
+                </div>
+            </div>
+        {% else %}
+            <div class="mb-3">
+                <p class="text-danger">No resume found! Please upload a resume in your profile settings.</p>
+            </div>
+        {% endif %}
+        
+        <div class="mb-3">
+            <label for="{{ form.experience.id_for_label }}" class="form-label">Years of Experience</label>
+            {{ form.experience }}
+        </div>
+        
+        <div class="mb-3">
+            <label for="{{ form.cover_letter.id_for_label }}" class="form-label">Cover Letter</label>
+            {{ form.cover_letter }}
+        </div>
+        
+        <button type="submit" class="btn btn-primary">Submit Application</button>
+    </form>
+</div>
+{% endblock %}

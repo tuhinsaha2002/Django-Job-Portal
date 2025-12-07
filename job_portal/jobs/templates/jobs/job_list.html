@@ -1,0 +1,175 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block css %}
+<style>
+    /* General Styles */
+    body {
+        
+        background-size: cover;
+        color: #ffffff;
+        font-family: 'Arial', sans-serif;
+    }
+
+    .container {
+        margin-top: 50px;
+    }
+
+    /* Card Styles */
+    .card {
+        border-radius: 15px;
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+    }
+
+    .card-header {
+        background: linear-gradient(90deg, #6132b4, #8a4de8);
+        color: white;
+        border-radius: 15px 15px 0 0;
+        font-size: 1.5rem;
+    }
+
+    .card-body {
+        background-color: #ffffff;
+        border-radius: 0 0 15px 15px;
+        padding: 25px;
+    }
+
+    /* Job Listing Styles */
+    .list-group-item {
+        border: none;
+        border-radius: 10px;
+        background-color: #f8f9fa;
+        padding: 20px;
+        margin-bottom: 15px;
+        transition: transform 0.2s, background-color 0.3s ease;
+    }
+
+    .list-group-item:hover {
+        background-color: #e9e9f3;
+        transform: scale(1.02);
+    }
+
+    .list-group-item.bg-warning {
+        background-color: #ffe8a1;
+    }
+
+    /* Button Styles */
+    .btn-group .btn {
+        margin: 3px;
+        font-size: 0.9rem;
+    }
+
+    .btn-primary {
+        background-color: #6132b4;
+        border-color: #6132b4;
+    }
+
+    .btn-primary:hover {
+        background-color: #8a4de8;
+        border-color: #8a4de8;
+    }
+
+    .btn-outline-primary {
+        border-color: #6132b4;
+        color: #6132b4;
+    }
+
+    .btn-outline-primary:hover {
+        background-color: #6132b4;
+        color: white;
+    }
+
+    .btn-info {
+        background-color: #34ace0;
+        border-color: #34ace0;
+    }
+
+    .btn-info:hover {
+        background-color: #4bb8f6;
+    }
+
+    /* Pagination Styles */
+    .pagination {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+    }
+
+    .pagination .page-link {
+        border-radius: 6px;
+        color: #6132b4;
+        border-color: #6132b4;
+    }
+
+    .pagination .page-link:hover {
+        background-color: #6132b4;
+        color: white;
+    }
+</style>
+{% endblock css %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="card shadow-lg">
+                <div class="card-header text-center">
+                    <h3>Posted Jobs - {{ company.company_name }}</h3>
+                </div>
+                <div class="card-body">
+                    {% if jobs %}
+                        <div class="list-group">
+                            {% for job in jobs %}
+                                <div class="list-group-item d-flex justify-content-between align-items-center {% if job.is_expired %}bg-warning{% endif %}">
+                                    <div>
+                                        <h5 class="text-primary">{{ job.title }}</h5>
+                                        <p>{{ job.description|truncatechars:100 }}</p>
+                                        <p><strong>Location:</strong> {{ job.location }}</p>
+                                        <p><strong>Salary Range:</strong> {{ job.min_salary }} LPA to {{ job.max_salary }} LPA</p>
+                                        <p><strong>Vacancies:</strong> {{ job.vacancies }}</p> <!-- Added vacancies -->
+                                        <p><strong>Posted On:</strong> {{ job.created_at|date:"d M Y, H:i" }}</p>
+                                        {% if job.is_expired %}
+                                            <p class="text-danger"><strong>Status:</strong> Expired</p>
+                                        {% else %}
+                                            <p><strong>Expiry Date:</strong> {{ job.expiry_date|date:"d M Y" }}</p>
+                                        {% endif %}
+                                    </div>
+                                    <div class="btn-group" role="group" aria-label="Job Actions">
+                                        <a href="{% url 'job_detail' job.id %}" class="btn btn-sm btn-primary">View Details</a>
+                                        {% if not job.is_expired %}
+                                            <a href="{% url 'edit_job' job.id %}" class="btn btn-sm btn-warning">Edit</a>
+                                            <a href="{% url 'delete_job' job.id %}" class="btn btn-sm btn-danger">Delete</a>
+                                        {% else %}
+                                            <a href="{% url 'repost_job' job.id %}" class="btn btn-sm btn-success">Repost</a>
+                                        {% endif %}
+                                        <a href="{% url 'job_details_view' job.id %}" class="btn btn-sm btn-info">View Applications</a>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+
+                        <!-- Pagination Controls -->
+                        <div class="pagination">
+                            {% if jobs.has_previous %}
+                                <a class="btn btn-outline-primary" href="?page=1">First</a>
+                                <a class="btn btn-outline-primary" href="?page={{ jobs.previous_page_number }}">Previous</a>
+                            {% endif %}
+                            <span class="mx-3">Page {{ jobs.number }} of {{ jobs.paginator.num_pages }}</span>
+                            {% if jobs.has_next %}
+                                <a class="btn btn-outline-primary" href="?page={{ jobs.next_page_number }}">Next</a>
+                                <a class="btn btn-outline-primary" href="?page={{ jobs.paginator.num_pages }}">Last</a>
+                            {% endif %}
+                        </div>
+                    {% else %}
+                        <p class="text-center">You haven't posted any jobs yet.</p>
+                        <div class="text-center">
+                            <a href="{% url 'post_job' %}" class="btn btn-primary">Post a New Job</a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% comment %} background: url("{% static 'images/purple.jpg' %}") no-repeat center center fixed; {% endcomment %}
+{% endblock %}

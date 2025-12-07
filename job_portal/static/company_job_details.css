@@ -1,0 +1,145 @@
+/* Global Styles */
+body {
+    font-family: 'Comic Sans MS', sans-serif;
+    background: linear-gradient(135deg, #F4A8B1, #F6F8FF);
+    color: #333;
+    padding: 0;
+    margin: 0;
+}
+
+/* Main Container */
+.job-details-container {
+    width: 80%;
+    margin: 30px auto;
+    padding: 20px;
+    background-color: #FFF;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+    overflow: hidden;
+    animation: fadeIn 1s ease-in-out;
+}
+
+/* Header Styling */
+.job-header {
+    text-align: center;
+    background-color: #6132b4; /* Updated color */
+    padding: 20px;
+    border-radius: 10px;
+    color: white;
+}
+
+.job-header .job-title {
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.job-header .job-company {
+    font-size: 1.5rem;
+    margin-top: 10px;
+}
+
+.job-header .company-name {
+    font-weight: bold;
+    color: #ff6347;
+}
+
+/* Description Styling */
+.job-description p {
+    font-size: 1.2rem;
+    line-height: 1.5;
+    margin: 10px 0;
+    color: #333;
+}
+
+.job-description strong {
+    color: #6132b4;
+}
+
+/* Subheading */
+.subheading {
+    font-size: 2rem;
+    color: #6132b4;
+    margin: 20px 0;
+    text-align: center;
+}
+
+/* Filter Section */
+.filter-section {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.filter-section select {
+    font-size: 1.2rem;
+    padding: 12px;
+    border-radius: 25px;
+    border: 2px solid #FF6347;
+    background-color: #FFF;
+    transition: background-color 0.3s;
+}
+
+.filter-section select:hover {
+    background-color: #FF6347;
+    color: #FFF;
+}
+
+/* Table Styling */
+.applications-table table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.applications-table th, .applications-table td {
+    padding: 15px;
+    text-align: left;
+    font-size: 1.1rem;
+}
+
+.applications-table th {
+    background-color: #6132b4; /* Updated color */
+    color: white;
+}
+
+.applications-table td {
+    background-color: #FFF;
+    color: #333;
+    border-bottom: 2px solid #FF6347;
+}
+
+.applications-table .table-row:hover {
+    background-color: #FFF5EE;
+    transform: scale(1.02);
+    transition: transform 0.3s ease;
+}
+
+/* Buttons */
+.download-btn, .update-btn {
+    padding: 10px 20px;
+    border-radius: 25px;
+    text-decoration: none;
+    font-size: 1.1rem;
+    color: white;
+    background-color: #FF6347;
+    border: none;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.download-btn:hover, .update-btn:hover {
+    background-color: #D46F49;
+    transform: scale(1.05);
+}
+
+/* Add Animation */
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}

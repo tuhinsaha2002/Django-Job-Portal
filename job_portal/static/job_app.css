@@ -1,0 +1,121 @@
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f8f3fc;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.page-title {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #5a2a8c;
+    font-weight: bold;
+}
+
+.search-form {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.search-input {
+    padding: 10px;
+    width: 70%;
+    border: 1px solid #d8c7e8;
+    border-radius: 5px;
+    margin-right: 10px;
+    background-color: #fff;
+    color: #5a2a8c;
+}
+
+.search-button {
+    padding: 10px 15px;
+    background-color: #8c4bc8;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.search-button:hover {
+    background-color: #7237a8;
+}
+
+.applicants-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.applicants-table th,
+.applicants-table td {
+    border: 1px solid #d8c7e8;
+    text-align: left;
+    padding: 10px;
+    color: #5a2a8c;
+}
+
+.applicants-table th {
+    background-color: #eae0f4;
+    font-weight: bold;
+}
+
+.applicants-table tr:nth-child(even) {
+    background-color: #f4eafc;
+}
+
+.skill-badge {
+    display: inline-block;
+    background-color: #8c4bc8;
+    color: white;
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    margin-right: 5px;
+}
+
+.linkedin-link {
+    color: #6f2dbd;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.linkedin-link:hover {
+    text-decoration: underline;
+}
+
+.no-link {
+    color: #9b9b9b;
+    font-style: italic;
+}
+
+.action-button {
+    padding: 10px 20px;
+    background-color: #5a2a8c;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+    text-align: center;
+    display: inline-block;
+    width: 150px; /* Adjust width as needed */
+}
+
+.action-button:hover {
+    background-color: #4a2378;
+}
+
+.no-results {
+    text-align: center;
+    margin-top: 20px;
+    color: #5a2a8c;
+    font-size: 16px;
+    font-style: italic;
+}

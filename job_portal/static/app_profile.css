@@ -1,0 +1,74 @@
+/* Body Background */
+body {
+    background: url("../images/purple.jpg") no-repeat center center fixed;
+    background-size: cover;
+    color: #ffffff;
+}
+
+/* Form Styling */
+.form-control {
+    background: rgba(255, 255, 255, 0.8);
+    color: #333;
+    border: 2px solid #ccc; /* Visible border added */
+    border-radius: 5px;
+}
+
+.form-control::placeholder {
+    color: #666;
+    font-style: italic;
+}
+
+.form-control:focus {
+    outline: none;
+    box-shadow: 0 0 10px rgba(123, 36, 178, 0.8); /* Purple glow effect */
+    border-color: #7b24b2; /* Change border color to match focus effect */
+}
+
+/* Button Styling */
+.btn-primary {
+    background-color: #7b24b2;
+    border: none;
+    transition: all 0.3s ease-in-out;
+}
+
+.btn-primary:hover {
+    background-color: #a337e6;
+    box-shadow: 0 4px 15px rgba(123, 36, 178, 0.6);
+}
+
+/* Error Message Styling */
+.alert-danger {
+    background-color: rgba(255, 0, 0, 0.8);
+    border: none;
+    color: #fff;
+}
+
+/* Card Header Styling */
+.card-header {
+    background-color: #7b24b2;
+    border-bottom: none;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+/* Links */
+a.text-danger {
+    color: #ff4d4d;
+    text-decoration: none;
+}
+
+a.text-danger:hover {
+    color: #ff6666;
+    text-decoration: underline;
+}
+
+/* Mobile Adjustments */
+@media (max-width: 768px) {
+    .card {
+        margin: 20px;
+    }
+
+    .btn-primary {
+        font-size: 1rem;
+    }
+}

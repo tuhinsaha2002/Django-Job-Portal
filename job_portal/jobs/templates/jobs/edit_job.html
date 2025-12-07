@@ -1,0 +1,151 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Job{% endblock %}
+
+{% block css %}
+<style>
+    .container {
+        max-width: 800px;
+        padding: 20px;
+        background-color: #f8f9fa;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .job-form .form-group {
+        margin-bottom: 20px;
+    }
+
+    .job-form label {
+        font-weight: bold;
+    }
+
+    .job-form input,
+    .job-form select,
+    .job-form textarea {
+        width: 100%;
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid #ddd;
+        margin-top: 5px;
+    }
+
+    .btn {
+        padding: 12px 20px;
+        font-size: 16px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        color: white;
+        border: none;
+    }
+
+    .btn-primary:hover {
+        background-color: #0056b3;
+    }
+
+    h2 {
+        font-size: 24px;
+        color: #333;
+    }
+
+    .form-group textarea {
+        resize: vertical;
+    }
+
+    .text-center {
+        text-align: center;
+    }
+</style>
+{% endblock css %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Edit Job: {{ job.title }}</h2>
+
+    <form method="POST" class="job-form">
+        {% csrf_token %}
+        
+        <!-- Job Title -->
+        <div class="form-group">
+            <label for="id_title">Job Title:</label>
+            {{ form.title }}
+        </div>
+
+        <!-- Job Description -->
+        <div class="form-group">
+            <label for="id_description">Job Description:</label>
+            {{ form.description }}
+        </div>
+
+        <!-- Skills Required -->
+        <div class="form-group">
+            <label for="id_skills_required">Skills Required:</label>
+            {{ form.skills_required }}
+        </div>
+
+        <!-- Min Salary -->
+        <div class="form-group">
+            <label for="id_min_salary">Min Salary (LPA):</label>
+            {{ form.min_salary }}
+        </div>
+
+        <!-- Max Salary -->
+        <div class="form-group">
+            <label for="id_max_salary">Max Salary (LPA):</label>
+            {{ form.max_salary }}
+        </div>
+
+        <!-- Location -->
+        <div class="form-group">
+            <label for="id_location">Location:</label>
+            {{ form.location }}
+        </div>
+
+        <!-- Job Type -->
+        <div class="form-group">
+            <label for="id_job_type">Job Type:</label>
+            {{ form.job_type }}
+        </div>
+
+        <!-- Min Experience -->
+        <div class="form-group">
+            <label for="id_min_experience">Min Experience (years):</label>
+            {{ form.min_experience }}
+        </div>
+
+        <!-- Max Experience -->
+        <div class="form-group">
+            <label for="id_max_experience">Max Experience (years):</label>
+            {{ form.max_experience }}
+        </div>
+
+        <!-- Expiry Date -->
+        <div class="form-group">
+            <label for="id_expiry_date">Expiry Date:</label>
+            {{ form.expiry_date }}
+        </div>
+
+        <!-- Vacancies -->
+        <div class="form-group">
+            <label for="id_vacancies">Vacancies:</label>
+            {{ form.vacancies }}
+        </div>
+
+        <!-- Category -->
+        <div class="form-group">
+            <label for="id_category">Category:</label>
+            {{ form.category }}
+        </div>
+
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+        </div>
+    </form>
+</div>
+
+{% endblock %}

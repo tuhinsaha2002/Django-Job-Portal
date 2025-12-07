@@ -1,0 +1,632 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Home - Job Portal{% endblock %}
+
+{% block css %}
+<style>
+  .steps {
+    background-image: url("/static/images/graph.png");
+    background-position: center center;
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+
+  .chatbot {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+.chatbot-button {
+    background-color: #6a38c2; /* Purple */
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s;
+}
+
+.chatbot-button:hover {
+    background-color: #532a96; /* Darker Purple */
+}
+
+.chatbot-window {
+    position: fixed;
+    bottom: 90px;
+    right: 20px;
+    width: 300px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.chatbot-header {
+    background-color: #6a38c2; /* Purple */
+    color: white;
+    padding: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.chatbot-body {
+    padding: 10px;
+    max-height: 300px;
+    overflow-y: auto;
+    font-size: 14px;
+}
+
+.chatbot-body p {
+    margin: 5px 0;
+}
+
+.chatbot-body ul {
+    padding-left: 20px;
+}
+
+.chatbot-body ul li {
+    margin-bottom: 5px;
+}
+
+.chatbot-input {
+    display: flex;
+    border-top: 1px solid #ddd;
+}
+
+.chatbot-input input {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    outline: none;
+    font-size: 14px;
+}
+
+.chatbot-input button {
+    background-color: #6a38c2; /* Purple */
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.chatbot-input button:hover {
+    background-color: #532a96; /* Darker Purple */
+}
+</style>
+{% endblock css %}
+
+{% block content %}
+<!-- Hero Section -->
+<header class="section__container header__container" id="home">
+    <img src="{% static 'images/google.png' %}" alt="header" />
+    <img src="{% static 'images/twitter.png' %}" alt="header" />
+    <img src="{% static 'images/amazon.png' %}" alt="header" />
+    <img src="{% static 'images/facebook.png' %}" alt="Facebook Logo" />
+    <img src="{% static 'images/linkedin.png' %}" alt="header" />
+    <img src="{% static 'images/microsoft.png' %}" alt="header" />
+
+    <h2>
+      <img src="{% static 'images/bag.png' %}" alt="bag" />
+      No.1 Job Hunt Website
+    </h2>
+    <h1>Search, Apply &<br />Get Your <span>Dream Job</span></h1>
+    <p>
+      Your future starts here. Discover countless opportunities, take action
+      by applying to jobs that match your skills and aspirations, and
+      transform your career.
+    </p>
+    <div class="header__btns">
+      <a href="{% url 'company_login' %}"><button class="btn">Browse Jobs</button></a>
+      <a href="{% url 'score_resume' %}">
+        <span><i class="ri-play-fill"></i></span>
+        ATS Score
+      </a>
+    </div>
+  </header>
+
+   {% comment %} ============================== QUICK STEPS ===================== {% endcomment %}
+
+  <section class="steps" id="about">
+    <div class="section__container steps__container">
+      <h2 class="section__header">
+        Get Hired in 4 <span>Quick Easy Steps</span>
+      </h2>
+      <p class="section__description">
+        Follow Our Simple, Step-by-Step Guide to Quickly Land Your Dream Job
+        and Start Your New Career Journey.
+      </p>
+      <div class="steps__grid">
+        <div class="steps__card">
+          <span><i class="fa fa-user-circle"></i></span>
+          <h4>Create an Account</h4>
+          <p>
+            Sign up with just a few clicks to unlock exclusive access to a
+            world of job opportunities and landing your dream job. It's quick,
+            easy, and completely free.
+          </p>
+        </div>
+        <div class="steps__card">
+          <span><i class="fa fa-search"></i></span>
+          <h4>Search Job</h4>
+          <p>
+            Dive into our job database tailored to match your skills and
+            preferences. With our advanced search filters, finding the perfect
+            job has never been easier.
+          </p>
+        </div>
+        <div class="steps__card">
+          <span><i class="fa fa-upload"></i></span>
+          <h4>Upload CV/Resume</h4>
+          <p>
+            Showcase your experience by uploading your CV or resume. Let
+            employers know why you're the perfect candidate for their job
+            openings.
+          </p>
+        </div>
+        <div class="steps__card">
+          <span><i class="fa fa-briefcase"></i></span>
+          <h4>Get Job</h4>
+          <p>
+            Take the final step towards your new career. Get ready to embark
+            on your professional journey and secure the job you've been
+            dreaming of.
+          </p>
+        </div>
+      </div>
+      
+    </div>
+  </section>
+
+{% comment %} ====================================  Career   ===========================  {% endcomment %}
+<section class="section__container explore__container">
+  <h2 class="section__header">
+      <span>Countless Career Options</span> Are Waiting For You To Explore
+  </h2>
+  <p class="section__description">
+      Discover a World of Exciting Opportunities and Endless Possibilities,
+      and Find the Perfect Career Path to Shape Your Future.
+  </p>
+  <div class="explore__grid" id="category-grid">
+      <!-- Initially show only 8 categories -->
+      <div class="explore__card">
+          <span><i class="fa fa-paint-brush"></i></span>
+          <h4>Software Developer</h4>
+          <p>200+ job openings</p>
+      </div>
+      <div class="explore__card">
+          <span><i class="fa fa-paint-brush"></i></span>
+          <h4>Designer</h4>
+          <p>150+ job openings</p>
+      </div>
+      <div class="explore__card">
+          <span><i class="fa fa-chart-line"></i></span>
+          <h4>Marketing</h4>
+          <p>500+ job openings</p>
+      </div>
+      <div class="explore__card">
+          <span><i class="fa fa-wallet"></i></span>
+          <h4>Finance</h4>
+          <p>200+ job openings</p>
+      </div>
+      <div class="explore__card">
+          <span><i class="fa fa-truck"></i></span>
+          <h4>Sales</h4>
+          <p>350+ job openings</p>
+      </div>
+      <div class="explore__card">
+          <span><i class="fa fa-bullhorn"></i></span>
+          <h4>Service</h4>
+          <p>300+ job openings</p>
+      </div>
+      <div class="explore__card">
+          <span><i class="fa fa-chart-bar"></i></span>
+          <h4>Data Analyst</h4>
+          <p>150+ job openings</p>
+      </div>
+      <div class="explore__card">
+          <span><i class="fa fa-cogs"></i></span>
+          <h4>Engineering</h4>
+          <p>500+ job openings</p>
+      </div>
+  </div>
+  
+  <div class="explore__btn">
+      <button class="btn" id="view-more-btn">View All Categories</button>
+      <button class="btn" id="view-less-btn" style="display:none;">View Less</button>
+  </div>
+</section>
+
+
+ {% comment %} ====================================  Company   ============================  {% endcomment %}
+
+ <section class="section__container job__container" id="job">
+    <h2 class="section__header"><span>Latest & Top</span> Job Openings</h2>
+    <p class="section__description">
+      Discover Exciting New Opportunities and High-Demand Positions Available
+      Now in Top Industries and Companies
+    </p>
+
+    <div class="job__grid">
+        <div class="job__card">
+            <div class="job__card__header">
+                <img src="{% static 'images/facebook.png' %}" alt="job" />
+                <div>
+                    <h5>Facebook</h5>
+                    <h6>India</h6>
+                </div>
+            </div>
+            <h4>Senior Product Engineer</h4>
+            <p>
+                Lead the development of innovative product solutions, leveraging
+                your expertise in engineering and product management to drive
+                success.
+            </p>
+            <div class="job__card__footer">
+                <span>12 Positions</span>
+                <span>Full Time</span>
+                <span>₹1,20,35,000/Year</span> <!-- Converted to INR -->
+            </div>
+        </div>
+        <div class="job__card">
+            <div class="job__card__header">
+                <img src="{% static 'images/google.png' %}" alt="job" />
+                <div>
+                    <h5>Google</h5>
+                    <h6>India</h6>
+                </div>
+            </div>
+            <h4>Project Manager</h4>
+            <p>
+                Manage project timelines and budgets to ensure successful delivery
+                of projects on schedule, while maintaining clear communication with
+                stakeholders.
+            </p>
+            <div class="job__card__footer">
+                <span>2 Positions</span>
+                <span>Full Time</span>
+                <span>₹79,35,000/Year</span> <!-- Converted to INR -->
+            </div>
+        </div>
+        <div class="job__card">
+            <div class="job__card__header">
+                <img src="{% static 'images/linkedin.png' %}" alt="job" />
+                <div>
+                    <h5>LinkedIn</h5>
+                    <h6>India</h6>
+                </div>
+            </div>
+            <h4>Full Stack Developer</h4>
+            <p>
+                Develop and maintain both front-end and back-end components of web
+                applications, utilizing a wide range of programming languages and
+                frameworks.
+            </p>
+            <div class="job__card__footer">
+                <span>10 Positions</span>
+                <span>Full Time</span>
+                <span>₹29,05,000/Year</span> <!-- Converted to INR -->
+            </div>
+        </div>
+        <div class="job__card">
+            <div class="job__card__header">
+                <img src="{% static 'images/amazon.png' %}" alt="job" />
+                <div>
+                    <h5>Amazon</h5>
+                    <h6>India</h6>
+                </div>
+            </div>
+            <h4>Front-end Developer</h4>
+            <p>
+                Design and implement user interfaces using HTML, CSS, and
+                JavaScript, collaborating closely with designers and back-end
+                developers.
+            </p>
+            <div class="job__card__footer">
+                <span>20 Positions</span>
+                <span>Full Time</span>
+                <span>₹83,93,000/Year</span> <!-- Converted to INR -->
+            </div>
+        </div>
+        <div class="job__card">
+            <div class="job__card__header">
+                <img src="{% static 'images/twitter.png' %}" alt="job" />
+                <div>
+                    <h5>Twitter</h5>
+                    <h6>India</h6>
+                </div>
+            </div>
+            <h4>ReactJS Developer</h4>
+            <p>
+                Specialize in building dynamic and interactive user interfaces using
+                the ReactJS library, leveraging your expertise in JavaScript and
+                front-end development.
+            </p>
+            <div class="job__card__footer">
+                <span>6 Positions</span>
+                <span>Full Time</span>
+                <span>₹81,54,000/Year</span> <!-- Converted to INR -->
+            </div>
+        </div>
+        <div class="job__card">
+            <div class="job__card__header">
+                <img src="{% static 'images/microsoft.png' %}" alt="job" />
+                <div>
+                    <h5>Microsoft</h5>
+                    <h6>India</h6>
+                </div>
+            </div>
+            <h4>Python Developer</h4>
+            <p>
+                Develop scalable and efficient backend systems and applications
+                using Python, utilizing your proficiency in Python programming and
+                software development.
+            </p>
+            <div class="job__card__footer">
+                <span>9 Positions</span>
+                <span>Full Time</span>
+                <span>₹66,40,000/Year</span> <!-- Converted to INR -->
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+  <section class="section__container offer__container" id="service">
+    <h2 class="section__header">What We <span>Offer</span></h2>
+    <p class="section__description">
+      Explore the Benefits and Services We Provide to Enhance Your Job Search
+      and Career Success
+    </p>
+    <div class="offer__grid">
+      <div class="offer__card">
+        <img src="{% static 'images/offer-1.jpg' %}" alt="offer" />
+        <div class="offer__details">
+          <span>01</span>
+          <div>
+            <h4>Job Recommendation</h4>
+            <p>
+              Personalized job matches tailored to your skills and preferences
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="offer__card">
+        <img src="{% static 'images/offer-2.jpg' %}" alt="offer" />
+        <div class="offer__details">
+          <span>02</span>
+          <div>
+            <h4>Create & Build Portfolio</h4>
+            <p>Showcase your expertise with professional portfolio design</p>
+          </div>
+        </div>
+      </div>
+      <div class="offer__card">
+        <img src="{% static 'images/offer-3.jpg' %}" alt="offer" />
+        <div class="offer__details">
+          <span>03</span>
+          <div>
+            <h4>Career Consultation</h4>
+            <p>Receive expert advice to navigate your career path</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section__container client__container" id="client">
+    <h2 class="section__header">What Our <span>Client Say</span></h2>
+    <p class="section__description">
+      Read Testimonials and Success Stories from Our Satisfied Job Seekers and
+      Employers to See How We Make a Difference
+    </p>
+    <!-- Slider main container -->
+    <div class="clients-container">
+      <div class="client__card">
+        <img src="{% static 'images/client-1.jpg' %}" alt="client" />
+        <p>
+          Searching for a job can be overwhelming, but this platform made
+          it simple and efficient. I uploaded my resume, applied to a few
+          positions, and soon enough, I was hired! Thank you for helping
+          me kickstart my career!
+        </p>
+        <div class="client__ratings">
+          <span><i class="fa fa-star"></i></span>
+          <span><i class="fa fa-star"></i></span>
+          <span><i class="fa fa-star"></i></span>
+          <span><i class="fa fa-star"></i></span>
+          <span><i class="fa fa-star"></i></span>
+        </div>
+        <h4>Sarah Patel</h4>
+        <h5>Graphic Designer</h5>
+      </div>
+      <div class="client__card">
+        <img src="{% static 'images/client-2.jpg' %}" alt="client" />
+        <p>
+          As a recent graduate, I was unsure where to start my job search.
+          This website guided me through the process step by step. From
+          creating my profile to receiving job offers, everything was
+          seamless. I'm now happily employed thanks to this platform!
+        </p>
+        <div class="client__ratings">
+          <span><i class="fa fa-star"></i></span>
+          <span><i class="fa fa-star"></i></span>
+          <span><i class="fa fa-star"></i></span>
+          <span><i class="fa fa-star"></i></span>
+          <span><i class="fa fa-star-half-alt"></i></span>
+        </div>
+        <h4>Michael Brown</h4>
+        <h5>Recent Graduate</h5>
+      </div>
+      <div class="client__card">
+        <img src="{% static 'images/client-3.jpg' %}" alt="client" />
+        <p>
+          Creating an account was a breeze, and I was amazed by the number
+          of job opportunities available. Thanks to this website, I found
+          the perfect position that aligned perfectly with my career
+          goals.
+        </p>
+        <div class="client__ratings">
+          <span><i class="fa fa-star"></i></span>
+          <span><i class="fa fa-star"></i></span>
+          <span><i class="fa fa-star"></i></span>
+          <span><i class="fa fa-star"></i></span>
+          <span><i class="fa fa-star"></i></span>
+        </div>
+        <h4>David Smith</h4>
+        <h5>Software Engineer</h5>
+      </div>
+    </div>
+    
+  </section>
+
+
+  {% comment %} ============================= chatbot =================   {% endcomment %}
+
+  <div class="chatbot">
+    <button class="chatbot-button" id="chatbot-toggle">
+        <i class="fas fa-comment-dots"></i>
+    </button>
+    <div class="chatbot-window" id="chatbot-window">
+        <div class="chatbot-header">
+            Chatbot
+            <button id="chatbot-close" style="background: none; border: none; color: white; font-size: 16px; cursor: pointer;">&times;</button>
+        </div>
+        <div class="chatbot-body" id="chatbot-body">
+            <p><strong>Welcome!</strong> Ask me anything:</p>
+        </div>
+        <div class="chatbot-input">
+            <input type="text" id="chatbot-input" placeholder="Type your question...">
+            <button id="chatbot-send"><i class="fas fa-paper-plane"></i></button>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/fuse.js/dist/fuse.js"></script>
+<script>
+  const chatbotToggle = document.getElementById('chatbot-toggle');
+  const chatbotWindow = document.getElementById('chatbot-window');
+  const chatbotClose = document.getElementById('chatbot-close');
+  const chatbotBody = document.getElementById('chatbot-body');
+  const chatbotInput = document.getElementById('chatbot-input');
+  const chatbotSend = document.getElementById('chatbot-send');
+
+  // Predefined questions and answers
+  const predefinedQA = [
+    { question: "How to apply for jobs?", answer: "To apply for jobs, go to the job listings page, select a job, and click 'Apply'." },
+    { question: "What is the subscription cost?", answer: "The subscription costs vary based on the plan. Please visit the subscription page for details." },
+    { question: "How to upload a resume?", answer: "You can upload your resume by visiting the 'Upload Resume' page and following the instructions." },
+    { question: "How do I reset my password?", answer: "To reset your password, click on 'Forgot Password' on the login page and follow the instructions sent to your email." },
+    { question: "Where can I view my applications?", answer: "You can view your applications under the 'My Applications' section in your account dashboard." },
+  ];
+
+  // Fuse.js options for fuzzy matching
+  const fuseOptions = {
+      keys: ['question'],
+      threshold: 0.4 // Adjust threshold for better matches (lower = stricter match)
+  };
+  const fuse = new Fuse(predefinedQA, fuseOptions);
+
+  chatbotToggle.addEventListener('click', () => {
+      chatbotWindow.style.display = chatbotWindow.style.display === 'flex' ? 'none' : 'flex';
+  });
+
+  chatbotClose.addEventListener('click', () => {
+      chatbotWindow.style.display = 'none';
+  });
+
+  chatbotSend.addEventListener('click', () => {
+      const userInput = chatbotInput.value.trim().toLowerCase(); // Normalize user input
+      if (userInput) {
+          const result = fuse.search(userInput); // Fuzzy search for closest match
+          const answer = result.length > 0 
+              ? result[0].item.answer 
+              : "I'm sorry, I don't have an answer for that.";
+
+          chatbotBody.innerHTML += `<p><strong>You:</strong> ${chatbotInput.value}</p>`;
+          chatbotBody.innerHTML += `<p><strong>Bot:</strong> ${answer}</p>`;
+          chatbotInput.value = '';
+          chatbotBody.scrollTop = chatbotBody.scrollHeight;
+      }
+  });
+</script>
+
+<!-- Link to the external JS file -->
+<script src="{% static 'home.js' %}"></script>
+{% endblock %}
+
+
+
+{% block footer %}
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="section__container footer__container">
+    <div class="footer__col">
+      <div class="footer__logo">
+        <a href="#" class="logo">Job<span>Hunt</span></a>
+      </div>
+      <p>
+        Our platform is designed to help you find the perfect job and
+        achieve your professional dreams.
+      </p>
+    </div>
+    <div class="footer__col">
+      <h4>Quick Links</h4>
+      <ul class="footer__links">
+        <li><a href="#">Home</a></li>
+        <li><a href="#">About Us</a></li>
+        <li><a href="#">Jobs</a></li>
+        <li><a href="#">Testimonials</a></li>
+        <li><a href="#">Contact Us</a></li>
+      </ul>
+    </div>
+    <div class="footer__col">
+      <h4>Follow Us</h4>
+      <ul class="footer__links">
+        <li><a href="#">Facebook</a></li>
+        <li><a href="#">Instagram</a></li>
+        <li><a href="#">LinkedIn</a></li>
+        <li><a href="#">Twitter</a></li>
+        <li><a href="#">Youtube</a></li>
+      </ul>
+    </div>
+    <div class="footer__col">
+      <h4>Contact Us</h4>
+      <ul class="footer__links">
+        <li>
+          <a href="#">
+            <span><i class="ri-phone-fill"></i></span> +91 234 56788
+          </a>
+        </li>
+        <li>
+          <a href="#">
+            <span><i class="ri-map-pin-2-fill"></i></span> 123 Borivali Street,
+            Anytown, Mumbai
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer__bar">
+    Copyright © 2024 Tuhins Design. All rights reserved.
+  </div>
+</footer>
+
+
+{% endblock footer %}
+
+
+

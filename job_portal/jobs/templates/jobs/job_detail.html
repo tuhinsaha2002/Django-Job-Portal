@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-lg">
+                <div class="card-header bg-primary text-white text-center">
+                    <h3>Job Details - {{ job.title }}</h3>
+                </div>
+                <div class="card-body">
+                    <h4>{{ job.title }}</h4>
+                    <p><strong>Description:</strong> {{ job.description }}</p>
+
+                    <!-- Dynamically render location using get_location_display() -->
+                    <p><strong>Location:</strong> {{ job.get_location_display }}</p>
+
+                    <p><strong>Salary Range:</strong> {{ job.min_salary }} LPA to {{ job.max_salary }} LPA</p>
+                    <p><strong>Job Type:</strong> {{ job.job_type }}</p>
+                    <p><strong>Skills Required:</strong> {{ job.skills_required }}</p>
+                    <p><strong>Vacancies:</strong> {{ job.vacancies }}</p>  
+                    <p><strong>Created At:</strong> {{ job.created_at|date:"d M Y, H:i" }}</p> <!-- Job Creation Date -->
+                    <p><strong>Expiry Date:</strong> {{ job.expiry_date|date:"d M Y" }}</p> <!-- Job Expiry Date -->
+
+                    <a href="{% url 'edit_job' job.id %}" class="btn btn-warning">Edit Job</a>
+                    <a href="{% url 'delete_job' job.id %}" class="btn btn-danger">Delete Job</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-lg">
+                <div class="card-header bg-primary text-white">
+                    <h4>Post a New Job</h4>
+                </div>
+                <div class="card-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        
+                        <!-- Render Title -->
+                        <div class="form-group">
+                            <label for="id_title">Job Title</label>
+                            {{ form.title }}
+                        </div>
+
+                        <!-- Render Description -->
+                        <div class="form-group">
+                            <label for="id_description">Job Description</label>
+                            {{ form.description }}
+                        </div>
+
+                        <!-- Render Skills Required -->
+                        <div class="form-group">
+                            <label for="id_skills_required">Skills Required</label>
+                            {{ form.skills_required }}
+                        </div>
+
+                        <!-- Render Salary Range -->
+                        <div class="form-group">
+                            <label for="id_min_salary">Minimum Salary (in LPA)</label>
+                            {{ form.min_salary }}
+                        </div>
+                        <div class="form-group">
+                            <label for="id_max_salary">Maximum Salary (in LPA)</label>
+                            {{ form.max_salary }}
+                        </div>
+
+                        <!-- Render Location -->
+                        <div class="form-group">
+                            <label for="id_location">Location</label>
+                            {{ form.location }}  <!-- This renders the location dropdown -->
+                        </div>
+
+                        <!-- Render Job Type -->
+                        <div class="form-group">
+                            <label for="id_job_type">Job Type</label>
+                            {{ form.job_type }}
+                        </div>
+
+                        <!-- Render Category (Dropdown for categories) -->
+                        <div class="form-group">
+                            <label for="id_category">Category</label>
+                            {{ form.category }}  <!-- This renders the category dropdown -->
+                        </div>
+
+                        <!-- Render Experience Fields -->
+                        <div class="form-group">
+                            <label for="id_min_experience">Minimum Experience</label>
+                            {{ form.min_experience }}
+                        </div>
+                        <div class="form-group">
+                            <label for="id_max_experience">Maximum Experience</label>
+                            {{ form.max_experience }}
+                        </div>
+
+                        <!-- Render Expiry Date -->
+                        <div class="form-group">
+                            <label for="id_expiry_date">Expiry Date</label>
+                            {{ form.expiry_date }}
+                        </div>
+
+                        <!-- Render Vacancies -->
+                        <div class="form-group">
+                            <label for="id_vacancies">Vacancies</label>
+                            {{ form.vacancies }}
+                        </div>
+                        
+                        <!-- Submit Button -->
+                        <button type="submit" class="btn btn-success w-100">Post Job</button>
+                    </form>
+                    
+                    <!-- Back Button -->
+                    <a href="{% url 'job_list' %}" class="btn btn-secondary mt-3 w-100">Back to Job Listings</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,166 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Explore Fun Jobs!{% endblock title %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'browse.css' %}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
+{% endblock css %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar -->
+        <div class="col-md-3 col-12 sidebar">
+            <h3>Filter Jobs</h3>
+            <hr />
+            
+            <form method="GET" action="{% url 'browse_all_jobs' %}" id="filter-form">
+                <!-- Job Type Filter -->
+                <div class="filter-section">
+                    <h4>Job Type</h4>
+                    <label><input type="radio" name="job_type" value="FT" {% if request.GET.job_type == 'FT' %}checked{% endif %} /> Full-time</label>
+                    <label><input type="radio" name="job_type" value="PT" {% if request.GET.job_type == 'PT' %}checked{% endif %} /> Part-time</label>
+                    <label><input type="radio" name="job_type" value="RM" {% if request.GET.job_type == 'RM' %}checked{% endif %} /> Remote</label>
+                </div>
+            
+                <!-- Experience Level Filter -->
+                <div class="filter-section">
+                    <h4>Experience Level</h4>
+                    <label><input type="radio" name="experience" value="0-2" {% if request.GET.experience == '0-2' %}checked{% endif %} /> 0-2 years</label>
+                    <label><input type="radio" name="experience" value="3-5" {% if request.GET.experience == '3-5' %}checked{% endif %} /> 3-5 years</label>
+                    <label><input type="radio" name="experience" value="6+" {% if request.GET.experience == '6+' %}checked{% endif %} /> 6+ years</label>
+                </div>
+            
+                <!-- Location Filter -->
+                <div class="filter-section">
+                    <h4>Location</h4>
+                    <label><input type="radio" name="location" value="" {% if not request.GET.location %}checked{% endif %} /> All</label>
+                    {% for loc in unique_locations %}
+                        <label><input type="radio" name="location" value="{{ loc.0 }}" {% if request.GET.location == loc.0 %}checked{% endif %} /> {{ loc.1 }}</label>
+                    {% empty %}
+                        <p>No locations available.</p>
+                    {% endfor %}
+                </div>
+            
+                <!-- Category Filter -->
+                <div class="filter-section">
+                    <h4>Category</h4>
+                    <label><input type="radio" name="category" value="" {% if not request.GET.category %}checked{% endif %} /> All</label>
+                    {% for category in unique_categories %}
+                        <label><input type="radio" name="category" value="{{ category.0 }}" {% if request.GET.category == category.0 %}checked{% endif %} /> {{ category.1 }}</label>
+                    {% empty %}
+                        <p>No categories available.</p>
+                    {% endfor %}
+                </div>
+            
+                <!-- Salary Range Filter -->
+                <div class="filter-section">
+                    <h4>Salary Range</h4>
+                    <label><input type="radio" name="salary_range" value="0-3" {% if request.GET.salary_range == '0-3' %}checked{% endif %} /> 0-3 LPA</label>
+                    <label><input type="radio" name="salary_range" value="3-5" {% if request.GET.salary_range == '3-5' %}checked{% endif %} /> 3-5 LPA</label>
+                    <label><input type="radio" name="salary_range" value="5-10" {% if request.GET.salary_range == '5-10' %}checked{% endif %} /> 5-10 LPA</label>
+                    <label><input type="radio" name="salary_range" value="10+" {% if request.GET.salary_range == '10+' %}checked{% endif %} /> 10+ LPA</label>
+                </div>
+        
+                <!-- Apply Filters Button -->
+                <button type="submit" class="btn btn-primary" id="apply-filters-btn">Apply Filters</button>
+                <!-- Clear Filters Button -->
+                <a href="{% url 'browse_all_jobs' %}" class="btn btn-secondary" id="clear-filters-btn">Clear Filters</a>
+            </form>
+        </div>
+        
+
+
+        
+        <!-- Main Content -->
+        <div class="col-md-9 col-12 content">
+            <div class="row row-cols-1 row-cols-md-3 g-4" id="job-container">
+                {% for job in jobs %}
+                    <div class="col">
+                        <div class="card">
+                            <div class="card-header">
+                                <span>{{ job.created_at|date:"d M Y" }}</span>
+                            </div>
+                            <div class="card-body">
+                                <img src="{{ job.company.logo.url }}" alt="{{ job.company.company_name }}" class="company-logo" />
+                                <div>
+                                    <h4>{{ job.company.company_name }}</h4>
+                                    <span class="location">{{ job.location }}</span>
+                                </div>
+                                <h3 class="job-title">
+                                    <a href="{% url 'job_info' job.id %}">{{ job.title }}</a>
+                                </h3>
+                                <p class="job-description">
+                                    {{ job.description|truncatewords:25 }}
+                                </p>
+                                <div class="job-info">
+                                    <span class="badge">{{ job.vacancies }} positions</span>
+                                    <span class="badge {% if job.job_type == 'FT' %}full-time{% elif job.job_type == 'PT' %}part-time{% elif job.job_type == 'RM' %}remote{% endif %}">
+                                        {{ job.get_job_type_display }}
+                                    </span>
+                                    <span class="badge salary">{{ job.salary_range }}</span>
+                                </div>
+                                <div class="card-actions" style="display: flex; justify-content: space-between; gap: 8px; align-items: center;">
+                                    {% if job.id in user_wishlisted_jobs %}
+                                        <a href="{% url 'remove_from_wishlist' job.id %}" class="btn btn-danger btn-sm" 
+                                           style="font-size: 13px; padding: 10px 10px; height: 40px; border-radius: 4px;">Remove Job</a>
+                                    {% else %}
+                                        <a href="{% url 'add_to_wishlist' job.id %}" class="btn btn-secondary btn-sm" 
+                                           style="font-size: 13px; padding: 10px 10px; height: 40px; border-radius: 4px;">Save Job</a>
+                                    {% endif %}
+                                    <a href="{% url 'apply_for_job' job.id %}" class="btn btn-primary btn-sm" 
+                                       style="font-size: 13px; padding: 10px 10px; height: 40px; border-radius: 4px; line-height: 1.4;">Apply Now</a>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                {% empty %}
+                    <p class="no-jobs-message">No jobs available based on the selected filters.</p>
+                {% endfor %}
+            </div>
+            
+            <!-- Pagination Controls -->
+            <nav aria-label="Page navigation">
+                <ul class="pagination justify-content-center mt-4">
+                    {% if jobs.has_previous %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page=1" aria-label="First">
+                                <span aria-hidden="true">&laquo;&laquo;</span>
+                            </a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ jobs.previous_page_number }}" aria-label="Previous">
+                                <span aria-hidden="true">&laquo;</span>
+                            </a>
+                        </li>
+                    {% endif %}
+                    {% for page_num in jobs.paginator.page_range %}
+                        <li class="page-item {% if page_num == jobs.number %}active{% endif %}">
+                            <a class="page-link" href="?page={{ page_num }}">{{ page_num }}</a>
+                        </li>
+                    {% endfor %}
+                    {% if jobs.has_next %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ jobs.next_page_number }}" aria-label="Next">
+                                <span aria-hidden="true">&raquo;</span>
+                            </a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ jobs.paginator.num_pages }}" aria-label="Last">
+                                <span aria-hidden="true">&raquo;&raquo;</span>
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+<link rel="stylesheet" href="{% static 'browse.js' %}">
+{% endblock content %}

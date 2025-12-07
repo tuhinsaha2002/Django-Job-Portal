@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}Applied Jobs{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4">Applied Jobs</h1>
+
+    <!-- Display any messages here -->
+    {% if messages %}
+        <div class="alert alert-warning">
+            {% for message in messages %}
+                <p>{{ message }}</p>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    {% if applications %}
+        <ul class="list-group mb-4">
+            {% for application in applications %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <a href="{% url 'job_info' application.job.id %}">{{ application.job.title }}</a>
+                    <span class="badge bg-info text-white">Status: {{ application.status }}</span>
+                    <a href="{% url 'withdraw_application' application.id %}" class="btn btn-danger btn-sm">Withdraw</a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>You haven't applied to any jobs yet.</p>
+    {% endif %}
+</div>
+{% endblock %}

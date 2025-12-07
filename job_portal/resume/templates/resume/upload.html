@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Resume</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            background-color: #fff;
+            padding: 30px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        h2 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .form-group {
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            text-align: left;
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        .form-group input[type="text"], 
+        .form-group input[type="file"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+
+        button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            margin-top: 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+            margin-top: 10px;
+        }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+        }
+
+        .note {
+            margin-top: 15px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .divider {
+            margin: 30px 0;
+            border-top: 1px solid #ddd;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Upload Your Resume</h2>
+        
+        <!-- Form to upload resume for overall ATS score -->
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            <!-- Candidate Name Field -->
+            <div class="form-group">
+                <label for="id_candidate_name">Your Name:</label>
+                {{ form.candidate_name }}
+            </div>
+
+            <!-- Resume File Upload -->
+            <div class="form-group">
+                <label for="id_uploaded_resume">Resume File (PDF/DOCX):</label>
+                {{ form.uploaded_resume }}
+            </div>
+
+            <button type="submit">Check Overall ATS Score</button>
+        </form>
+
+        <!-- Divider -->
+        <div class="divider"></div>
+
+        <!-- Button to go to job-based ATS score feature -->
+        <a href="{% url 'job_based_ats' %}" class="btn-secondary">Check ATS Score According to Job Description</a>
+
+        <!-- Note about accepted file types -->
+        <p class="note">Accepted file types: PDF, DOCX. Max size: 10MB.</p>
+    </div>
+</body>
+</html>

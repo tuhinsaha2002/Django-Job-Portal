@@ -1,0 +1,162 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Job Search Results{% endblock %}
+
+{% block content %}
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f7fc;
+            color: #333;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 50px auto;
+            padding: 30px;
+            background: #ffffff;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Title */
+        .search-results-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 30px;
+            color: #6a38c2;
+        }
+
+        /* Job List */
+        .job-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        /* Job Item */
+        .job-item {
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 15px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            background: #fafafa;
+            text-align: center;
+        }
+
+        .job-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Job Title */
+        .job-title {
+            font-size: 1.8rem;
+            margin: 0 0 15px;
+            color: #6a38c2;
+        }
+
+        .job-title a {
+            text-decoration: none;
+            color: inherit;
+            transition: color 0.3s;
+        }
+
+        .job-title a:hover {
+            color: #fa6021;
+        }
+
+        /* Job Location */
+        .job-location {
+            font-weight: bold;
+            color: #777;
+            margin: 15px 0;
+        }
+
+        /* Job Description */
+        .job-description {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #555;
+        }
+
+        /* Apply Button */
+        .btn-apply {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 1rem;
+            font-weight: bold;
+            color: #fff;
+            background-color: #6a38c2;
+            border-radius: 25px;
+            text-align: center;
+            text-decoration: none;
+            transition: background-color 0.3s, transform 0.3s;
+            margin-top: 15px;
+        }
+
+        .btn-apply:hover {
+            background-color: #5a2eac;
+            transform: scale(1.05);
+        }
+
+        /* Company Logo */
+        .company-logo {
+            width: 50px;
+            height: 50px;
+            object-fit: cover;
+            border-radius: 50%;
+            margin-bottom: 10px;
+            position: absolute;
+        }
+
+        /* No Results */
+        .no-results {
+            text-align: center;
+            font-size: 1.5rem;
+            color: #e74c3c;
+            margin-top: 50px;
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .job-list {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+
+    <div class="container">
+        <h1 class="search-results-title">Job Search Results</h1>
+
+        {% if jobs %}
+            <div class="job-list">
+                {% for job in jobs %}
+                    <div class="job-item">
+                        <!-- Display Company Name and Logo -->
+                        <div class="company-info">
+                            {% if job.company.logo %}
+                                <img src="{{ job.company.logo.url }}" alt="{{ job.company.company_name }} Logo" class="company-logo">
+                            {% endif %}
+                            <h3>{{ job.company.company_name }}</h3>
+                        </div>
+                        <h2 class="job-title">
+                            <a href="{% url 'job_info' job.id %}">{{ job.title }}</a>
+                        </h2>
+                        <p class="job-location">Location: {{ job.location }}</p>
+                        <p class="job-description">{{ job.description|slice:":150" }}...</p>
+                        <a href="{% url 'job_info' job.id %}" class="btn-apply">Apply Now</a>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="no-results">No jobs found matching "{{ query }}"</p>
+        {% endif %}
+    </div>
+{% endblock %}

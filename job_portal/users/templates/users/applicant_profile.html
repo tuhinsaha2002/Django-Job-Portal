@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Applicant Profile{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'app_profile.css' %}">
+<style>
+    body {
+        background: url("{% static 'images/purple.jpg' %}") no-repeat center center fixed;
+        background-size: cover;
+        color: #ffffff;
+    }
+</style>
+{% endblock css %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white text-center">
+                    <h4>Applicant Profile</h4>
+                </div>
+                <div class="card-body">
+                    {% if form.errors %}
+                        <!-- Highlighted error section -->
+                        <div class="alert alert-danger">
+                            <strong>You have missed something on the form!</strong>
+                            <ul>
+                                {% for field in form %}
+                                    {% for error in field.errors %}
+                                        <li>{{ error }}</li>
+                                    {% endfor %}
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    {% endif %}
+
+                    <form method="post" enctype="multipart/form-data" novalidate>
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="id_first_name" class="form-label">First Name</label>
+                                <input type="text" name="first_name" value="{{ form.first_name.value }}" class="form-control" id="id_first_name">
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="id_last_name" class="form-label">Last Name</label>
+                                <input type="text" name="last_name" value="{{ form.last_name.value }}" class="form-control" id="id_last_name">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="id_email" class="form-label">Email</label>
+                            <input type="email" name="email" value="{{ form.email.value }}" class="form-control" id="id_email" readonly>
+                        </div>
+                        <div class="mb-3">
+                            <label for="id_dob" class="form-label">Date of Birth</label>
+                            <input type="date" name="dob" value="{{ form.dob.value }}" class="form-control" id="id_dob">
+                        </div>
+                        <div class="mb-3">
+                            <label for="id_address" class="form-label">Address</label>
+                            <textarea name="address" class="form-control" id="id_address">{{ form.address.value }}</textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="id_phone_no" class="form-label">Phone Number</label>
+                            <input type="text" name="phone_no" value="{{ form.phone_no.value }}" class="form-control" id="id_phone_no">
+                        </div>
+                        <div class="mb-3">
+                            <label for="id_bio" class="form-label">Bio</label>
+                            <textarea name="bio" class="form-control" id="id_bio">{{ form.bio.value }}</textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label for="id_linkedin_profile" class="form-label">LinkedIn Profile</label>
+                            <input type="url" name="linkedin_profile" value="{{ form.linkedin_profile.value }}" class="form-control" id="id_linkedin_profile">
+                        </div>
+
+                        <!-- Location field updated to a dropdown -->
+                        <div class="mb-3">
+                            <label for="id_location" class="form-label">Location</label>
+                            <select name="location" class="form-control" id="id_location">
+                                {% for value, display in form.location.field.choices %}
+                                    <option value="{{ value }}" {% if form.location.value == value %}selected{% endif %}>{{ display }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="id_profile_picture" class="form-label">Profile Picture</label>
+                            <input type="file" name="profile_picture" class="form-control" id="id_profile_picture">
+                        </div>
+                        <div class="mb-3">
+                            <label for="id_resume" class="form-label">Resume</label>
+                            <input type="file" name="resume" class="form-control" id="id_resume">
+                            {% if form.resume.errors %}
+                                <div class="error-message">
+                                    {% for error in form.resume.errors %}
+                                        <p class="text-danger">{{ error }}</p>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Save Changes</button>
+                    </form>
+                </div>
+                <div class="card-footer text-center">
+                    <a href="{% url 'logout' %}" class="text-danger">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

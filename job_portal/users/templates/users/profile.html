@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'pro.css' %}">
+{% endblock css %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="text-purple">Applicant Profile</h1>
+    
+    <!-- Profile Header -->
+    <div class="row mt-4 align-items-center">
+        <div class="col-md-3 text-center">
+            {% if applicant_profile.profile_picture %}
+                <img src="{{ applicant_profile.profile_picture.url }}" alt="Profile Picture" class="img-fluid rounded-circle profile-img">
+            {% else %}
+                <img src="{% static 'images/default-profile.png' %}" alt="Default Profile Picture" class="img-fluid rounded-circle profile-img">
+            {% endif %}
+        </div>
+        <div class="col-md-9">
+            <p><strong>Full Name:</strong> {{ applicant_profile.user.get_full_name }}</p>
+            <p><strong>Email:</strong> {{ applicant_profile.user.email }}</p>
+            <p><strong>Location:</strong> {{ applicant_profile.location|default:"Not provided" }}</p>
+            <p><strong>Date of Birth:</strong> {{ applicant_profile.dob|default:"Not provided" }}</p>
+            <p><strong>Phone Number:</strong> {{ applicant_profile.phone_no|default:"Not provided" }}</p>
+            <p><strong>LinkedIn Profile:</strong> 
+                {% if applicant_profile.linkedin_profile %}
+                    <a href="{{ applicant_profile.linkedin_profile }}" target="_blank">{{ applicant_profile.linkedin_profile }}</a>
+                {% else %}
+                    Not provided
+                {% endif %}
+            </p>
+            <p><strong>ATS Score:</strong> 
+                {% if applicant_profile.ats_score %}
+                    {{ applicant_profile.ats_score }}
+                {% else %}
+                    Not available
+                {% endif %}
+            </p>
+        </div>
+    </div>
+
+    <!-- Bio and Skills -->
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <p><strong>Bio:</strong> {{ applicant_profile.bio|default:"No bio available" }}</p>
+        </div>
+        <div class="col-md-6">
+            <p><strong>Skills:</strong>
+                {% if applicant_profile.skills.exists %}
+                    <ul class="list-unstyled">
+                        {% for skill in applicant_profile.skills.all %}
+                            <li><i class="fas fa-check-circle text-purple"></i> {{ skill.name }}</li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    No skills added.
+                {% endif %}
+            </p>
+        </div>
+    </div>
+
+    <!-- Resume Section -->
+    <div class="row mt-5">
+        <div class="col-md-12">
+            <h4 class="text-purple mb-3"><i class="fas fa-file"></i> Resume</h4>
+            {% if applicant_profile.resume %}
+                <!-- View Resume Button -->
+                <a href="{{ applicant_profile.resume.url }}" target="_blank" class="btn btn-primary">View Resume</a>
+            {% else %}
+                <p class="text-muted">No resume uploaded yet.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

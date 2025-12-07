@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Applicant Login{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'app_login.css' %}">
+<style>
+    body {
+        background: url("{% static 'images/log.png' %}") no-repeat center center fixed;
+        background-size: cover;
+        color: #ffffff;
+        overflow: hidden;
+    }
+</style>
+{% endblock css %}
+
+{% block content %}
+<div class="container my-5 d-flex justify-content-center align-items-center">
+    <div class="col-md-6">
+        <div class="card shadow login-card">
+            <div class="card-header text-center login-card-header">
+                <h4>Applicant Login</h4>
+            </div>
+            <div class="card-body">
+                <form method="post" novalidate>
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="id_username" class="form-label">Username</label>
+                        {{ form.username }}
+                    </div>
+                    <div class="mb-3">
+                        <label for="id_password" class="form-label">Password</label>
+                        {{ form.password }}
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Login</button>
+                </form>
+
+                {% if messages %}
+                    <div class="mt-3">
+                        {% for message in messages %}
+                            <div class="alert alert-danger">{{ message }}</div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                <hr>
+                <p class="text-center mt-3">
+                    Don't have an account? 
+                    <a href="{% url 'applicant_signup' %}" class="text-decoration-none text-primary signup-link">
+                        Sign up here
+                    </a>
+                </p>
+                <p class="text-center mt-3">
+                    Forgot your password? 
+                    <a href="{% url 'request_otp' %}" class="text-decoration-none text-primary">
+                        Reset it here
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

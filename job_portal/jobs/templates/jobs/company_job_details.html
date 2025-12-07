@@ -1,0 +1,103 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %} Company Job Details {% endblock title %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'company_job_details.css' %}">
+{% endblock css %}
+
+{% block content %}
+<div class="job-details-container">
+    <div class="job-header">
+        <h1 class="job-title">{{ job.title }}</h1>
+        <p class="job-company">Company: <span class="company-name">{{ job.company.company_name }}</span></p>
+    </div>
+    
+    <div class="job-description">
+        <p><strong>Description:</strong> {{ job.description }}</p>
+        <p><strong>Skills Required:</strong> {{ job.skills_required }}</p>
+
+        <!-- Dynamically render location using get_location_display() -->
+        <p><strong>Location:</strong> {{ job.get_location_display }}</p>
+
+        <p><strong>Salary Range:</strong> {{ job.min_salary }} LPA to {{ job.max_salary }} LPA</p> <!-- Salary Range -->
+        <p><strong>Vacancies:</strong> {{ job.vacancies }}</p>  <!-- Vacancies -->
+        <p><strong>Experience Range:</strong> {{ job.min_experience }} to {{ job.max_experience }} years</p> <!-- Experience Range -->
+        <p><strong>Expiry Date:</strong> {{ job.expiry_date|date:"d M Y" }}</p>  <!-- Expiry Date -->
+    </div>
+    
+    <hr class="separator">
+
+    <h2 class="subheading">Applications</h2>
+    <div class="filter-section">
+        <label for="status-filter">Filter by Status:</label>
+        <select id="status-filter" name="status" onchange="filterApplications()">
+            <option value="ALL" {% if selected_status == 'ALL' %}selected{% endif %}>All</option>
+            <option value="Pending" {% if selected_status == 'Pending' %}selected{% endif %}>Pending</option>
+            <option value="Reviewed" {% if selected_status == 'Reviewed' %}selected{% endif %}>Reviewed</option>
+            <option value="Shortlisted for Interview" {% if selected_status == 'Shortlisted for Interview' %}selected{% endif %}>Shortlisted for Interview</option>
+            <option value="Accepted" {% if selected_status == 'Accepted' %}selected{% endif %}>Accepted</option>
+            <option value="Rejected" {% if selected_status == 'Rejected' %}selected{% endif %}>Rejected</option>
+        </select>
+    </div>
+
+    <div class="applications-table">
+        {% if applications|length == 0 %}
+            <p>No applicants have applied for this job yet.</p>  <!-- No Applicants Message -->
+        {% else %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Applicant</th>
+                        <th>Resume</th>
+                        <th>Experience</th>
+                        <th>Cover Letter</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for application in applications %}
+                        <tr class="table-row">
+                            <td>{{ application.applicant.user.username }}</td>
+                            <td>
+                                {% if application.resume %}
+                                    <a href="{{ application.resume.url }}" target="_blank" class="download-btn">Download</a>
+                                {% else %}
+                                    N/A
+                                {% endif %}
+                            </td>
+                            <td>{{ application.experience }} years</td>
+                            <td>{{ application.cover_letter|truncatewords:20 }}</td>
+                            <td>{{ application.status }}</td>
+                            <td>
+                                <form method="POST" action="{% url 'update_application_status' application.id %}">
+                                    {% csrf_token %}
+                                    <select name="status">
+                                        <option value="Pending" {% if application.status == 'Pending' %}selected{% endif %}>Pending</option>
+                                        <option value="Reviewed" {% if application.status == 'Reviewed' %}selected{% endif %}>Reviewed</option>
+                                        <option value="Shortlisted for Interview" {% if application.status == 'Shortlisted for Interview' %}selected{% endif %}>Shortlisted for Interview</option>
+                                        <option value="Accepted" {% if application.status == 'Accepted' %}selected{% endif %}>Accepted</option>
+                                        <option value="Rejected" {% if application.status == 'Rejected' %}selected{% endif %}>Rejected</option>
+                                    </select>
+                                    <button type="submit" class="update-btn">Update</button>
+                                </form>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% endif %}
+    </div>
+</div>
+
+<script>
+    function filterApplications() {
+        const status = document.getElementById("status-filter").value;
+        const url = new URL(window.location.href);
+        url.searchParams.set('status', status);
+        window.location.href = url.toString();
+    }
+</script>
+{% endblock content %}

@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-5">
+    <h1>Companies who viewed your profile</h1>
+
+    {% if profile_views %}
+    <ul class="list-group">
+        {% for view in profile_views %}
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            <div>
+                <strong>{{ view.viewed_by_company.company_name }}</strong><br>
+                <small>Viewed on: {{ view.viewed_at }}</small>
+            </div>
+            <form action="{% url 'delete_company_view' view.id %}" method="POST" class="d-inline-block" onsubmit="return confirm('Are you sure you want to delete this view?')">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+            </form>
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>No companies have viewed your profile yet.</p>
+    {% endif %}
+</div>
+{% endblock %}

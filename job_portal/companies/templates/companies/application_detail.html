@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block title %}Applicant Details{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-lg">
+                <div class="card-header bg-primary text-white">
+                    <h3>Applicant Details</h3>
+                </div>
+                <div class="card-body">
+                    <p><strong>First Name:</strong> {{ applicant.user.first_name }}</p>
+                    <p><strong>Last Name:</strong> {{ applicant.user.last_name }}</p>
+                    <p><strong>Email:</strong> {{ applicant.user.email }}</p>
+                    <p><strong>Date of Birth:</strong> {{ applicant.dob }}</p>
+                    <p><strong>Address:</strong> {{ applicant.address }}</p>
+                    <p><strong>Phone Number:</strong> {{ applicant.phone_no }}</p>
+                    <p><strong>Bio:</strong> {{ applicant.bio }}</p>
+                    <p><strong>LinkedIn Profile:</strong> 
+                        {% if applicant.linkedin_profile %}
+                            <a href="{{ applicant.linkedin_profile }}" target="_blank">{{ applicant.linkedin_profile }}</a>
+                        {% else %}
+                            Not provided
+                        {% endif %}
+                    </p>
+                    <p><strong>Location:</strong> {{ applicant.location }}</p>
+
+                    {% if applicant.profile_picture %}
+                        <p><strong>Profile Picture:</strong></p>
+                        <img src="{{ applicant.profile_picture.url }}" alt="Profile Picture" class="img-thumbnail" width="150">
+                    {% endif %}
+
+                    {% if applicant.resume %}
+                        <p><strong>Resume:</strong> <a href="{{ applicant.resume.url }}" target="_blank">View Resume</a></p>
+                    {% else %}
+                        <p><strong>Resume:</strong> Not provided</p>
+                    {% endif %}
+
+                    <!-- Application Status Update -->
+                    <hr>
+                    <h4>Update Application Status</h4>
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="status">Status:</label>
+                            <select name="status" id="status" class="form-control">
+                                <option value="Pending" {% if application.status == "Pending" %}selected{% endif %}>Pending</option>
+                                <option value="Accepted" {% if application.status == "Accepted" %}selected{% endif %}>Accepted</option>
+                                <option value="Rejected" {% if application.status == "Rejected" %}selected{% endif %}>Rejected</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-success mt-3">Update Status</button>
+                    </form>
+
+                    <div class="mt-4">
+                        <a href="{% url 'view_applications' application.job.id %}" class="btn btn-secondary">Back to Applications</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

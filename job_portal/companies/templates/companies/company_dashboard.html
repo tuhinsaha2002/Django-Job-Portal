@@ -1,0 +1,265 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Company Dashboard</title>
+  
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+
+  <link rel="stylesheet" href="{% static 'com_dashboard.css' %}">
+</head>
+<body>
+
+    <!-- =============================== navbar  =================================   -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+        <div class="container-fluid">
+            <!-- Stylish Title -->
+            <a class="navbar-brand text-purple fw-bold fs-4 d-flex align-items-center me-5" href="/">
+                Job<span style="color: #fa6021;">Hunt</span>
+            </a>
+    
+            <!-- Search Bar -->
+            <div class="d-flex flex-grow-1 justify-content-center">
+                <form class="d-flex w-50" method="GET" action="{% url 'job_search' %}">
+                    <input 
+                        class="form-control me-2 search-bar" 
+                        type="search" 
+                        name="q" 
+                        placeholder="Search jobs..." 
+                        aria-label="Search" 
+                        value="{{ request.GET.q|default:'' }}" 
+                        required>
+                    <button class="btn btn-purple" type="submit">Search</button>
+                </form>
+            </div>
+    
+            <!-- Company Name and Logo -->
+            <div class="d-flex align-items-center">
+                {% if request.user.owned_companies.exists %}
+                    {% with company=request.user.owned_companies.first %}
+                        <span class="me-3 company-name text-purple fw-semibold fs-5">
+                            {{ company.company_name }}
+                        </span>
+                        {% if company.logo %}
+                            <img src="{{ company.logo.url }}" alt="Company Logo" class="profile-img rounded-circle" style="width: 40px; height: 40px;">
+                        {% else %}
+                            <div class="placeholder-logo d-flex align-items-center justify-content-center rounded-circle" style="width: 40px; height: 40px; background-color: #f8f9fa; color: #6c757d; font-weight: bold;">
+                                LOGO
+                            </div>
+                        {% endif %}
+                    {% endwith %}
+                {% else %}
+                    <span class="text-purple fw-semibold fs-5">No Company</span>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+    
+ {% comment %} ==============================================   left sidebar  ================================= {% endcomment %}
+
+
+ <div class="container-fluid">
+    <div class="row">
+        <!-- Left Sidebar -->
+        <div class="col-md-2 col-lg-2 sidebar">
+            <!-- Dashboard Title -->
+            <div class="dashboard-section">
+                <h4>
+                    <i class="fas fa-tachometer-alt"></i> Company Dashboard
+                </h4>
+            </div>
+        
+            <!-- Sidebar Sections -->
+            <ul class="list-unstyled components">
+                <li>
+                    <a href="{% url 'post_job' %}">
+                        <i class="fas fa-plus-circle"></i> Post a New Job
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'job_list' %}">
+                        <i class="fas fa-list"></i> View Posted Jobs
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'job_applicants' %}">
+                        <i class="fas fa-users"></i> View Job Applicants
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'company_profile' %}">
+                        <i class="fas fa-user-edit"></i> Edit Profile
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'delete_company_profile' %}">
+                        <i class="fas fa-user-times"></i> Delete Profile
+                    </a>
+                </li>
+                <li>
+                    <a href="{% url 'logout' %}">
+                        <i class="fas fa-sign-out-alt"></i> Log Out
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+ <!--------------------------------------------------- Main Content ----------------------------------------->
+ <div class="col-md-8 main-content">
+    <div class="row">
+        <!-- First Card: Total Jobs Posted -->
+        <div class="col-md-4 mb-4">
+            <div class="card main-cards text-green">
+                <div class="card-body">
+                    <h5 class="card-title">{{ total_jobs }}</h5>
+                    <p class="card-text">Total Jobs Posted</p>
+                </div>
+                <div class="card-footer card-line-green"></div>
+            </div>
+        </div>
+    
+        <!-- Second Card: Total Applications Received -->
+        <div class="col-md-4 mb-4">
+            <div class="card main-cards text-lightblue">
+                <div class="card-body">
+                    <h5 class="card-title">{{ total_applications }}</h5>
+                    <p class="card-text">Total Applications Received</p>
+                </div>
+                <div class="card-footer card-line-lightblue"></div>
+            </div>
+        </div>
+    </div>
+    
+    
+    <!--------------------------------------------------------- recommended jobs ------------------------------------------------------>
+
+    <div class="row">
+        <div class="col-12 mb-4">
+            <div class="card recommended-jobs-card">
+                <div class="card-header bg-purple text-white">
+                    <h4 class="mb-0"><i class="fas fa-users"></i> Applicants for Your Jobs</h4>
+                </div>
+                <div class="card-body">
+                    <ul class="list-unstyled" id="applicant-list">
+                        {% for application in applications|slice:":5" %}
+                        <li class="mb-3 d-flex align-items-center applicant-item">
+                            <!-- Applicant Profile Image (Leftmost) -->
+                            <img src="{{ application.applicant.profile_picture.url }}" alt="Profile" class="rounded-circle applicant-img">
+                            
+                            <!-- Applicant Name (Leftmost) -->
+                            <div class="d-flex ml-3 flex-column">
+                                <strong>{{ application.applicant.user.first_name }} {{ application.applicant.user.last_name }}</strong>
+                            </div>
+    
+                            <!-- Role, Applied Date (Stacked vertically in the middle) -->
+                            <div class="d-flex flex-column justify-content-center flex-grow-1 text-center">
+                                <small>Role: {{ application.job.title }}</small>
+                                <small class="mt-3">Applied on: {{ application.applied_on|date:"F j, Y" }}</small>
+                            </div>
+    
+                            <!-- Status and View Profile Button (Rightmost) -->
+                            <div class="d-flex flex-column align-items-end ml-auto">
+                                <small>Status: {{ application.status }}</small><br>
+                                <a href="{% url 'company_view_applicant_profile' applicant_id=application.applicant.id %}" class="btn btn-outline-purple btn-sm">View Profile</a>
+                            </div>
+                        </li>
+                        {% endfor %}
+                    </ul>
+    
+                    <!-- View More Button -->
+                    {% if applications.count > 5 %}
+                    <div class="text-center">
+                        <button class="btn btn-outline-purple" id="view-more-btn">View More</button>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+    
+</div>
+
+<!------------------------------------------------ Right Sidebar (to be updated later) ------------------------->
+<div class="col-md-2 col-lg-2 sidebar-right">
+    <!-- Company Logo, Name, and Description Section -->
+    <div class="company-section text-center my-4">
+        <div class="company-logo">
+            <div class="progress-border">
+                <img src="{{ company.logo.url }}" alt="Company Logo" class="img-fluid rounded-circle">
+            </div>
+        </div>
+        <h5 class="mt-3 text-purple">{{ company.name }}</h5>
+        <p class="company-description">
+            {{ company.description }}
+        </p>
+    </div>
+
+    <!-- Company Location Section -->
+    <div class="company-location text-center my-4">
+        <h6 class="text-purple">Location</h6>
+        <p><i class="fas fa-map-marker-alt"></i> {{ company.location }}</p>
+    </div>
+
+    <!-- Company Contact Section (Website and Email) -->
+    <div class="company-contact text-center my-4">
+        <h6 class="text-purple">Contact</h6>
+        <p><i class="fas fa-globe"></i> <a href="{{ company.website }}" target="_blank">{{ company.website }}</a></p>
+        <p><i class="fas fa-envelope"></i> <a href="mailto:{{ company.email }}">{{ company.email }}</a></p>
+    </div>
+</div>
+
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const applicants = document.querySelectorAll('.applicant-item');
+        const viewMoreButton = document.getElementById('view-more-btn');
+        
+        // Initially show only the first 5 applicants
+        applicants.forEach((applicant, index) => {
+            if (index >= 5) {
+                applicant.style.display = 'none';  // Hide extra applicants
+            }
+        });
+
+        // Handle View More button click
+        if (viewMoreButton) {
+            viewMoreButton.addEventListener('click', function() {
+                applicants.forEach(applicant => {
+                    applicant.style.display = 'flex';  // Show all applicants
+                });
+                viewMoreButton.style.display = 'none';  // Hide the View More button
+            });
+        }
+    });
+</script>
+
+</div>   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="script.js"></script>
+</body>
+</html>
+        
+    
