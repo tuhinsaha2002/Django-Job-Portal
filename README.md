@@ -71,3 +71,37 @@ Personalized dashboard showing application analytics, saved jobs, profile views,
 
 ## 📂 Project Structure
 
+DjangoJobPortal/
+├─ users/ # User authentication & profile
+├─ jobs/ # Job posting & management
+├─ dashboard/ # Analytics & recommendations
+├─ templates/ # HTML templates
+├─ static/ # CSS, JS, images
+├─ manage.py
+└─ README.md
+
+
+
+---
+
+## 🔐 Authentication
+- Secure login system with custom user model  
+- Role-based access: Job Seekers vs Recruiters  
+
+---
+
+## 💾 ATS-Based Recommendations
+- Jobs recommended based on **skills & resume match**  
+- Track **ATS score** for each job application  
+
+---
+
+## 📈 Dashboard Analytics
+- View number of applied jobs  
+- Saved jobs & profile views  
+- ATS-based job suggestions  
+
+---
+
+<p align="center">Made with ❤️ by **Tuhin Saha**</p>
+
