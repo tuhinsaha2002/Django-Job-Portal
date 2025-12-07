@@ -1,8 +1,8 @@
 ### 🏠 Home Page
-![Home](screenshots/home.png)
+![Home](screenshots/home.jpg)
 
 ### 🔐 Login Page
-![Login](screenshots/login.png)
+![Login](screenshots/login.jpg)
 
 ### 📊 Dashboard
-![Dashboard](screenshots/dashboard.png)
+![Dashboard](screenshots/dashboard.jpg)
